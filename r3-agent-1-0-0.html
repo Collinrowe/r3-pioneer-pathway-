@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>R3 Agent Sandbox — Read-Only Tools v1.0.0</title>
+<style>
+  :root {
+    --bg: #14161a;
+    --panel: #1d2026;
+    --border: #2c3038;
+    --text: #e8e9ec;
+    --muted: #8a8f98;
+    --accent: #2f5d50;
+    --accent-hover: #3a715f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  h1 {
+    font-size: 20px;
+    margin: 0 0 4px 0;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .panel h2 {
+    font-size: 14px;
+    margin: 0 0 12px 0;
+    color: var(--text);
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  input {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 13px;
+    width: 160px;
+  }
+  button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 16px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  button:hover { background: var(--accent-hover); }
+  #output {
+    background: #0e0f12;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    font-family: "SF Mono", Menlo, monospace;
+    font-size: 12.5px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 520px;
+    overflow-y: auto;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: 8px;
+  }
+</style>
+</head>
+<body>
+
+<h1>R3 Agent Sandbox — Read-Only Tools</h1>
+<div class="subtitle">v1.0.0 &middot; reads localStorage only, never writes &middot; served against r3-app-5-2-14.html’s data</div>
+
+<div class="panel">
+  <h2>1. get_students()</h2>
+  <div class="row">
+    <button onclick="runTool('get_students')">Run</button>
+    <span class="tag">names, grades, IDs of each child</span>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>2. get_progress(studentName, subject)</h2>
+  <div class="row">
+    <input id="progress_name" placeholder="Student name" value="Isabelle">
+    <input id="progress_subject" placeholder="Subject" value="Math">
+    <button onclick="runTool('get_progress', [document.getElementById('progress_name').value, document.getElementById('progress_subject').value])">Run</button>
+    <span class="tag">completion/score data</span>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>3. get_schedule(weekOffset)</h2>
+  <div class="row">
+    <input id="schedule_offset" placeholder="Week offset" value="0">
+    <button onclick="runTool('get_schedule', [document.getElementById('schedule_offset').value])">Run</button>
+    <span class="tag">0 = current week, planned lessons per day</span>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>4. get_curriculum()</h2>
+  <div class="row">
+    <button onclick="runTool('get_curriculum')">Run</button>
+    <span class="tag">curriculum/unit structure, all students</span>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>5. get_recent_activity(days)</h2>
+  <div class="row">
+    <input id="activity_days" placeholder="Days" value="7">
+    <button onclick="runTool('get_recent_activity', [document.getElementById('activity_days').value])">Run</button>
+    <span class="tag">completed work in the last N days</span>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Output</h2>
+  <div id="output">Click a Run button above.</div>
+</div>
+
+<script>
+
+/* ---------------- Storage constants (from r3-storage-schema.md) ---------------- */
+var R3_STATE_KEY = 'r3-state-v1';
+var R3_SUBJ_TIME_KEY = 'subj_default_time';
+var R3_BOOKMARKS_KEY = 'gl_bookmarks';
+
+/* ---------------- Internal helpers ---------------- */
+
+function readState() {
+  try {
+    var raw = window.localStorage.getItem(R3_STATE_KEY);
+    if (!raw) {
+      return null;
+    }
+    return JSON.parse(raw);
+  } catch (e) {
+    return null;
+  }
+}
+
+function findStudent(state, studentName) {
+  var target = (studentName || '').trim().toLowerCase();
+  var children = Array.isArray(state.children) ? state.children : [];
+  for (var i = 0; i < children.length; i++) {
+    var candidate = (children[i].name || '').trim().toLowerCase();
+    if (candidate === target) {
+      return children[i];
+    }
+  }
+  return null;
+}
+
+/* ---------------- Tool 1: get_students ---------------- */
+
+function get_students() {
+  try {
+    var state = readState();
+    if (!state) {
+      return { error: 'No data found at localStorage key ‘' + R3_STATE_KEY + '’.' };
+    }
+    if (!Array.isArray(state.children)) {
+      return { error: 'State found, but ‘children’ array is missing or malformed.' };
+    }
+    return state.children.map(function (c) {
+      return {
+        id: c.id || null,
+        name: c.name || null,
+        grade: c.grade || null
+      };
+    });
+  } catch (e) {
+    return { error: 'get_students failed: ' + e.message };
+  }
+}
+
+/* ---------------- Tool 2: get_progress ---------------- */
+
+function get_progress(studentName, subject) {
+  try {
+    var state = readState();
+    if (!state) {
+      return { error: 'No data found at localStorage key ‘' + R3_STATE_KEY + '’.' };
+    }
+    var student = findStudent(state, studentName);
+    if (!student) {
+      return { error: 'No student named ‘' + studentName + '’ was found.' };
+    }
+    var courseKey = student.id + '::' + subject;
+    var course = state.courses && state.courses[courseKey] ? state.courses[courseKey] : null;
+    var lessonSummary = { error: 'No curriculum found for ‘' + subject + '’.' };
+    if (course) {
+      var total = 0;
+      var done = 0;
+      var units = Array.isArray(course.units) ? course.units : [];
+      for (var i = 0; i < units.length; i++) {
+        var lessons = Array.isArray(units[i].lessons) ? units[i].lessons : [];
+        for (var j = 0; j < lessons.length; j++) {
+          total++;
+          if (lessons[j].done) {
+            done++;
+          }
+        }
+      }
+      lessonSummary = {
+        brief: course.brief || '',
+        totalLessons: total,
+        completedLessons: done
+      };
+    }
+    var allGrades = Array.isArray(state.grades) ? state.grades : [];
+    var studentGrades = [];
+    for (var k = 0; k < allGrades.length; k++) {
+      if (allGrades[k].childId === student.id && allGrades[k].subject === subject) {
+        studentGrades.push(allGrades[k]);
+      }
+    }
+    return {
+      studentName: student.name,
+      studentId: student.id,
+      subject: subject,
+      lessons: lessonSummary,
+      grades: studentGrades
+    };
+  } catch (e) {
+    return { error: 'get_progress failed: ' + e.message };
+  }
+}
+
+/* ---------------- Tool 3: get_schedule ---------------- */
+
+function get_schedule(weekOffset) {
+  try {
+    var state = readState();
+    if (!state) {
+      return { error: 'No data found at localStorage key ‘' + R3_STATE_KEY + '’.' };
+    }
+    var offset = parseInt(weekOffset, 10);
+    if (isNaN(offset)) {
+      offset = 0;
+    }
+    var calSchedule = state.calSchedule && typeof state.calSchedule === 'object' ? state.calSchedule : {};
+    var children = Array.isArray(state.children) ? state.children : [];
+
+    var today = new Date();
+    var dow = today.getDay();
+    var diffToMonday = dow === 0 ? -6 : 1 - dow;
+    var monday = new Date(today);
+    monday.setDate(today.getDate() + diffToMonday + offset * 7);
+
+    var days = {};
+    for (var i = 0; i < 7; i++) {
+      var d = new Date(monday);
+      d.setDate(monday.getDate() + i);
+      var dateStr = d.toISOString().slice(0, 10);
+      var entries = [];
+      for (var c = 0; c < children.length; c++) {
+        var key = children[c].id + '::' + dateStr;
+        var lessons = calSchedule[key];
+        if (Array.isArray(lessons) && lessons.length > 0) {
+          entries.push({
+            studentId: children[c].id,
+            studentName: children[c].name,
+            lessons: lessons
+          });
+        }
+      }
+      days[dateStr] = entries;
+    }
+
+    return { weekOffset: offset, days: days };
+  } catch (e) {
+    return { error: 'get_schedule failed: ' + e.message };
+  }
+}
+
+/* ---------------- Tool 4: get_curriculum ---------------- */
+
+function get_curriculum() {
+  try {
+    var state = readState();
+    if (!state) {
+      return { error: 'No data found at localStorage key ‘' + R3_STATE_KEY + '’.' };
+    }
+    if (!state.courses || typeof state.courses !== 'object') {
+      return { error: '‘courses’ data is missing or malformed.' };
+    }
+    var out = {};
+    var keys = Object.keys(state.courses);
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      var course = state.courses[key];
+      var units = Array.isArray(course.units) ? course.units : [];
+      out[key] = {
+        brief: course.brief || '',
+        units: units.map(function (u) {
+          return {
+            id: u.id || null,
+            title: u.title || null,
+            lessonCount: Array.isArray(u.lessons) ? u.lessons.length : 0
+          };
+        })
+      };
+    }
+    return out;
+  } catch (e) {
+    return { error: 'get_curriculum failed: ' + e.message };
+  }
+}
+
+/* ---------------- Tool 5: get_recent_activity ---------------- */
+
+function get_recent_activity(days) {
+  try {
+    var state = readState();
+    if (!state) {
+      return { error: 'No data found at localStorage key ‘' + R3_STATE_KEY + '’.' };
+    }
+    var n = parseInt(days, 10);
+    if (isNaN(n) || n <= 0) {
+      n = 7;
+    }
+    var cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - n);
+    var cutoffStr = cutoff.toISOString().slice(0, 10);
+
+    var allGrades = Array.isArray(state.grades) ? state.grades : [];
+    var recentGrades = [];
+    for (var i = 0; i < allGrades.length; i++) {
+      if (allGrades[i].date && allGrades[i].date >= cutoffStr) {
+        recentGrades.push(allGrades[i]);
+      }
+    }
+
+    var allCompletedDates = Array.isArray(state.completedDates) ? state.completedDates : [];
+    var recentCompletedDates = [];
+    for (var j = 0; j < allCompletedDates.length; j++) {
+      if (allCompletedDates[j] >= cutoffStr) {
+        recentCompletedDates.push(allCompletedDates[j]);
+      }
+    }
+
+    var calSchedule = state.calSchedule && typeof state.calSchedule === 'object' ? state.calSchedule : {};
+    var recentLessons = [];
+    var scheduleKeys = Object.keys(calSchedule);
+    for (var k = 0; k < scheduleKeys.length; k++) {
+      var parts = scheduleKeys[k].split('::');
+      var studentId = parts[0];
+      var dateStr = parts[1];
+      if (dateStr && dateStr >= cutoffStr) {
+        var lessons = calSchedule[scheduleKeys[k]];
+        if (Array.isArray(lessons)) {
+          for (var m = 0; m < lessons.length; m++) {
+            if (lessons[m].done) {
+              recentLessons.push({
+                studentId: studentId,
+                date: dateStr,
+                subject: lessons[m].subject || null,
+                title: lessons[m].title || null
+              });
+            }
+          }
+        }
+      }
+    }
+
+    return {
+      sinceDate: cutoffStr,
+      grades: recentGrades,
+      completedDates: recentCompletedDates,
+      completedLessons: recentLessons
+    };
+  } catch (e) {
+    return { error: 'get_recent_activity failed: ' + e.message };
+  }
+}
+
+/* ---------------- Test harness ---------------- */
+
+var TOOLS = {
+  get_students: get_students,
+  get_progress: get_progress,
+  get_schedule: get_schedule,
+  get_curriculum: get_curriculum,
+  get_recent_activity: get_recent_activity
+};
+
+function runTool(name, args) {
+  var out = document.getElementById('output');
+  try {
+    var fn = TOOLS[name];
+    var result = fn.apply(null, args || []);
+    out.textContent = name + '(' + (args || []).join(', ') + ')\n\n' + JSON.stringify(result, null, 2);
+  } catch (e) {
+    out.textContent = 'Unexpected error running ' + name + ': ' + e.message;
+  }
+}
+
+</script>
+</body>
+</html>

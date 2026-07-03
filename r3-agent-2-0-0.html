@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>R3 Agent — Homeschool Assistant v2.0.0</title>
+<style>
+  :root {
+    --bg: #14161a;
+    --panel: #1d2026;
+    --border: #2c3038;
+    --text: #e8e9ec;
+    --muted: #8a8f98;
+    --accent: #2f5d50;
+    --accent-hover: #3a715f;
+    --bubble-user: #2c3038;
+    --bubble-assistant: #1a2e28;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px 0; }
+  .subtitle { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+  }
+  .panel h2 { font-size: 13px; margin: 0 0 12px 0; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  input[type="password"], input[type="text"] {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 9px 11px;
+    font-size: 13px;
+  }
+  input[type="password"] { width: 320px; }
+  select {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 9px 11px;
+    font-size: 13px;
+  }
+  button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 16px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  button:hover { background: var(--accent-hover); }
+  button.secondary { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+  button.secondary:hover { background: var(--panel); color: var(--text); }
+  button:disabled { opacity: 0.5; cursor: default; }
+  #keyStatus { font-size: 12px; color: var(--muted); }
+  #transcript {
+    background: #0e0f12;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    min-height: 240px;
+    max-height: 460px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .bubble {
+    max-width: 78%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .bubble.user { align-self: flex-end; background: var(--bubble-user); }
+  .bubble.assistant { align-self: flex-start; background: var(--bubble-assistant); }
+  .toolnote, .sysnote {
+    align-self: flex-start;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-family: "SF Mono", Menlo, monospace;
+  }
+  .sysnote { color: #c98a4a; }
+  .composer { display: flex; gap: 10px; margin-top: 14px; }
+  .composer input[type="text"] { flex: 1; width: auto; }
+  .placeholder { color: var(--muted); font-size: 13px; }
+  .footnote { color: var(--muted); font-size: 11.5px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<h1>R3 Agent — Homeschool Assistant</h1>
+<div class="subtitle">v2.0.0 &middot; read-only &middot; talks to your data through the same 5 tools verified in v1.0.0, never writes to r3-state-v1</div>
+
+<div class="panel">
+  <h2>Anthropic API Key</h2>
+  <div class="row">
+    <input type="password" id="apiKeyInput" placeholder="sk-ant-...">
+    <button onclick="saveApiKey()">Save Key</button>
+    <span id="keyStatus"></span>
+  </div>
+  <div class="footnote">Stored only in this browser (localStorage key r3_agent_api_key), sent only to api.anthropic.com. Never touches r3-state-v1 or any homeschool data.</div>
+</div>
+
+<div class="panel">
+  <h2>Model</h2>
+  <div class="row">
+    <select id="modelSelect">
+      <option value="claude-haiku-4-5-20251001">claude-haiku-4-5 (fast, cheap)</option>
+      <option value="claude-sonnet-5" selected>claude-sonnet-5 (balanced, default)</option>
+      <option value="claude-opus-4-8">claude-opus-4-8 (most capable)</option>
+    </select>
+    <button class="secondary" onclick="clearChat()">Clear chat</button>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Chat</h2>
+  <div id="transcript">
+    <div class="placeholder">Ask something like &ldquo;How is Isabelle doing in Math?&rdquo; or &ldquo;What is scheduled this week?&rdquo;</div>
+  </div>
+  <div class="composer">
+    <input type="text" id="chatInput" placeholder="Ask about students, schedule, curriculum, or recent progress...">
+    <button id="sendBtn" onclick="handleSend()">Send</button>
+  </div>
+</div>
+
+<script>
+
+/* ================================================================
+   Storage constants (from r3-storage-schema.md)
+   ================================================================ */
+var R3_STATE_KEY = 'r3-state-v1';
+var AGENT_KEY_STORAGE = 'r3_agent_api_key';
+
+/* ================================================================
+   Read-only tool functions
+   Identical logic to r3-agent-1-0-0.html, verified against real
+   data on 2026-07-03: get_students, get_curriculum, get_schedule,
+   and get_progress all confirmed working.
+   ================================================================ */
+
+function readState() {
+  try {
+    var raw = window.localStorage.getItem(R3_STATE_KEY);
+    if (!raw) {
+      return null;
+    }
+    return JSON.parse(raw);
+  } catch (e) {
+    return null;
+  }
+}
+
+function findStudent(state, studentName) {
+  var target = (studentName || '').trim().toLowerCase();
+  var children = Array.isArray(state.children) ? state.children : [];
+  for (var i = 0; i < children.length; i++) {
+    var candidate = (children[i].name || '').trim().toLowerCase();
+    if (candidate === target) {
+      return children[i];
+    }
+  }
+  return null;
+}
+
+function get_students() {
+  try {
+    var state = readState();
+    if (!state) {
+      return { error: 'No data found at localStorage key ‘' + R3_STATE_KEY + '’.' };
+    }
+    if (!Array.isArray(state.children)) {
+      return { error: 'State found, but ‘children’ array is missing or malformed.' };
+    }
+    return state.children.map(function (c) {
+      return {
+        id: c.id || null,
+        name: c.name || null,
+        grade: c.grade || null
+      };
+    });
+  } catch (e) {
+    return { error: 'get_students failed: ' + e.message };
+  }
+}
+
+function get_progress(studentName, subject) {
+  try {
+    var state = readState();
+    if (!state) {
+      return { error: 'No data found at localStorage key ‘' + R3_STATE_KEY + '’.' };
+    }
+    var student = findStudent(state, studentName);
+    if (!student) {
+      return { error: 'No student named ‘' + studentName + '’ was found.' };
+    }
+    var courseKey = student.id + '::' + subject;
+    var course = state.courses && state.courses[courseKey] ? state.courses[courseKey] : null;
+    var lessonSummary = { error: 'No curriculum found for ‘' + subject + '’.' };
+    if (course) {
+      var total = 0;
+      var done = 0;
+      var units = Array.isArray(course.units) ? course.units : [];
+      for (var i = 0; i < units.length; i++) {
+        var lessons = Array.isArray(units[i].lessons) ? units[i].lessons : [];
+        for (var j = 0; j < lessons.length; j++) {
+          total++;
+          if (lessons[j].done) {
+            done++;
+          }
+        }
+      }
+      lessonSummary = {
+        brief: course.brief || '',
+        totalLessons: total,
+        completedLessons: done
+      };
+    }
+    var allGrades = Array.isArray(state.grades) ? state.grades : [];
+    var studentGrades = [];
+    for (var k = 0; k < allGrades.length; k++) {
+      if (allGrades[k].childId === student.id && allGrades[k].subject === subject) {
+        studentGrades.push(allGrades[k]);
+      }
+    }
+    return {
+      studentName: student.name,
+      studentId: student.id,
+      subject: subject,
+      lessons: lessonSummary,
+      grades: studentGrades
+    };
+  } catch (e) {
+    return { error: 'get_progress failed: ' + e.message };
+  }
+}
+
+function get_schedule(weekOffset) {
+  try {
+    var state = readState();
+    if (!state) {
+      return { error: 'No data found at localStorage key ‘' + R3_STATE_KEY + '’.' };
+    }
+    var offset = parseInt(weekOffset, 10);
+    if (isNaN(offset)) {
+      offset = 0;
+    }
+    var calSchedule = state.calSchedule && typeof state.calSchedule === 'object' ? state.calSchedule : {};
+    var children = Array.isArray(state.children) ? state.children : [];
+
+    var today = new Date();
+    var dow = today.getDay();
+    var diffToMonday = dow === 0 ? -6 : 1 - dow;
+    var monday = new Date(today);
+    monday.setDate(today.getDate() + diffToMonday + offset * 7);
+
+    var days = {};
+    for (var i = 0; i < 7; i++) {
+      var d = new Date(monday);
+      d.setDate(monday.getDate() + i);
+      var dateStr = d.toISOString().slice(0, 10);
+      var entries = [];
+      for (var c = 0; c < children.length; c++) {
+        var key = children[c].id + '::' + dateStr;
+        var lessons = calSchedule[key];
+        if (Array.isArray(lessons) && lessons.length > 0) {
+          entries.push({
+            studentId: children[c].id,
+            studentName: children[c].name,
+            lessons: lessons
+          });
+        }
+      }
+      days[dateStr] = entries;
+    }
+
+    return { weekOffset: offset, days: days };
+  } catch (e) {
+    return { error: 'get_schedule failed: ' + e.message };
+  }
+}
+
+function get_curriculum() {
+  try {
+    var state = readState();
+    if (!state) {
+      return { error: 'No data found at localStorage key ‘' + R3_STATE_KEY + '’.' };
+    }
+    if (!state.courses || typeof state.courses !== 'object') {
+      return { error: '‘courses’ data is missing or malformed.' };
+    }
+    var out = {};
+    var keys = Object.keys(state.courses);
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      var course = state.courses[key];
+      var units = Array.isArray(course.units) ? course.units : [];
+      out[key] = {
+        brief: course.brief || '',
+        units: units.map(function (u) {
+          return {
+            id: u.id || null,
+            title: u.title || null,
+            lessonCount: Array.isArray(u.lessons) ? u.lessons.length : 0
+          };
+        })
+      };
+    }
+    return out;
+  } catch (e) {
+    return { error: 'get_curriculum failed: ' + e.message };
+  }
+}
+
+function get_recent_activity(days) {
+  try {
+    var state = readState();
+    if (!state) {
+      return { error: 'No data found at localStorage key ‘' + R3_STATE_KEY + '’.' };
+    }
+    var n = parseInt(days, 10);
+    if (isNaN(n) || n <= 0) {
+      n = 7;
+    }
+    var cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - n);
+    var cutoffStr = cutoff.toISOString().slice(0, 10);
+
+    var allGrades = Array.isArray(state.grades) ? state.grades : [];
+    var recentGrades = [];
+    for (var i = 0; i < allGrades.length; i++) {
+      if (allGrades[i].date && allGrades[i].date >= cutoffStr) {
+        recentGrades.push(allGrades[i]);
+      }
+    }
+
+    var allCompletedDates = Array.isArray(state.completedDates) ? state.completedDates : [];
+    var recentCompletedDates = [];
+    for (var j = 0; j < allCompletedDates.length; j++) {
+      if (allCompletedDates[j] >= cutoffStr) {
+        recentCompletedDates.push(allCompletedDates[j]);
+      }
+    }
+
+    var calSchedule = state.calSchedule && typeof state.calSchedule === 'object' ? state.calSchedule : {};
+    var recentLessons = [];
+    var scheduleKeys = Object.keys(calSchedule);
+    for (var k = 0; k < scheduleKeys.length; k++) {
+      var parts = scheduleKeys[k].split('::');
+      var studentId = parts[0];
+      var dateStr = parts[1];
+      if (dateStr && dateStr >= cutoffStr) {
+        var lessons = calSchedule[scheduleKeys[k]];
+        if (Array.isArray(lessons)) {
+          for (var m = 0; m < lessons.length; m++) {
+            if (lessons[m].done) {
+              recentLessons.push({
+                studentId: studentId,
+                date: dateStr,
+                subject: lessons[m].subject || null,
+                title: lessons[m].title || null
+              });
+            }
+          }
+        }
+      }
+    }
+
+    return {
+      sinceDate: cutoffStr,
+      grades: recentGrades,
+      completedDates: recentCompletedDates,
+      completedLessons: recentLessons
+    };
+  } catch (e) {
+    return { error: 'get_recent_activity failed: ' + e.message };
+  }
+}
+
+/* ================================================================
+   Tool dispatcher and Anthropic tool definitions
+   ================================================================ */
+
+function callTool(name, input) {
+  try {
+    input = input || {};
+    if (name === 'get_students') {
+      return get_students();
+    }
+    if (name === 'get_progress') {
+      return get_progress(input.studentName, input.subject);
+    }
+    if (name === 'get_schedule') {
+      return get_schedule(input.weekOffset);
+    }
+    if (name === 'get_curriculum') {
+      return get_curriculum();
+    }
+    if (name === 'get_recent_activity') {
+      return get_recent_activity(input.days);
+    }
+    return { error: 'Unknown tool name: ' + name };
+  } catch (e) {
+    return { error: 'Tool call failed: ' + e.message };
+  }
+}
+
+var TOOL_DEFS = [
+  {
+    name: 'get_students',
+    description: 'List every student in the household with internal id, name, and grade level. Call this first if the exact student name or id is not already known.',
+    input_schema: { type: 'object', properties: {}, required: [] }
+  },
+  {
+    name: 'get_progress',
+    description: 'Get lesson completion counts and grade entries for one student in one subject. Requires the exact student name as returned by get_students, and a subject such as Math, Reading, Writing, Science, or History.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        studentName: { type: 'string', description: 'Exact student name, as returned by get_students.' },
+        subject: { type: 'string', description: 'Subject name, e.g. Math, Reading, Writing, Science, History.' }
+      },
+      required: ['studentName', 'subject']
+    }
+  },
+  {
+    name: 'get_schedule',
+    description: 'Get the planned lesson schedule for a 7-day week, across all students. weekOffset 0 is the current week, 1 is next week, -1 is last week.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        weekOffset: { type: 'integer', description: '0 for current week, positive for future weeks, negative for past weeks. Defaults to 0.' }
+      },
+      required: []
+    }
+  },
+  {
+    name: 'get_curriculum',
+    description: 'Get the full curriculum structure for every student and subject: unit titles and lesson counts per unit.',
+    input_schema: { type: 'object', properties: {}, required: [] }
+  },
+  {
+    name: 'get_recent_activity',
+    description: 'Get grades, fully completed calendar days, and completed lessons from the last N days across all students. Defaults to 7 days.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        days: { type: 'integer', description: 'How many days back to look. Defaults to 7.' }
+      },
+      required: []
+    }
+  }
+];
+
+var SYSTEM_PROMPT = 'You are a read-only assistant for a homeschool management app called Pioneer Pathway. You can only see real student, curriculum, schedule, grade, and activity data by calling the tools provided — never guess at it. You cannot write or change any data. Call get_students first if you do not already know a student’s exact name. Answer clearly and specifically, using the real names, subjects, and numbers the tools return. If a tool returns an error, say so plainly instead of making something up.';
+
+/* ================================================================
+   Anthropic API call
+   ================================================================ */
+
+function callClaude(apiKey, model, messages) {
+  return fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: model,
+      max_tokens: 1024,
+      system: SYSTEM_PROMPT,
+      tools: TOOL_DEFS,
+      messages: messages
+    })
+  }).then(function (res) {
+    return res.json().then(function (data) {
+      if (!res.ok) {
+        var msg = (data && data.error && data.error.message) ? data.error.message : ('HTTP ' + res.status);
+        throw new Error(msg);
+      }
+      return data;
+    });
+  });
+}
+
+/* ================================================================
+   Chat state and UI helpers
+   ================================================================ */
+
+var apiMessages = [];
+var MAX_TOOL_TURNS = 6;
+
+function getSavedApiKey() {
+  try {
+    return window.localStorage.getItem(AGENT_KEY_STORAGE) || '';
+  } catch (e) {
+    return '';
+  }
+}
+
+function saveApiKey() {
+  var val = document.getElementById('apiKeyInput').value.trim();
+  try {
+    if (val) {
+      window.localStorage.setItem(AGENT_KEY_STORAGE, val);
+    } else {
+      window.localStorage.removeItem(AGENT_KEY_STORAGE);
+    }
+  } catch (e) {}
+  refreshKeyStatus();
+}
+
+function refreshKeyStatus() {
+  var key = getSavedApiKey();
+  var status = document.getElementById('keyStatus');
+  status.textContent = key ? 'Key saved.' : 'No key saved yet.';
+  document.getElementById('apiKeyInput').value = key;
+}
+
+function clearPlaceholder() {
+  var t = document.getElementById('transcript');
+  var placeholder = t.querySelector('.placeholder');
+  if (placeholder) {
+    placeholder.remove();
+  }
+}
+
+function appendBubble(role, text) {
+  clearPlaceholder();
+  var t = document.getElementById('transcript');
+  var div = document.createElement('div');
+  div.className = 'bubble ' + role;
+  div.textContent = text;
+  t.appendChild(div);
+  t.scrollTop = t.scrollHeight;
+}
+
+function appendToolNote(name, input) {
+  clearPlaceholder();
+  var t = document.getElementById('transcript');
+  var div = document.createElement('div');
+  div.className = 'toolnote';
+  div.textContent = '→ called ' + name + '(' + JSON.stringify(input || {}) + ')';
+  t.appendChild(div);
+  t.scrollTop = t.scrollHeight;
+}
+
+function appendSysNote(text) {
+  clearPlaceholder();
+  var t = document.getElementById('transcript');
+  var div = document.createElement('div');
+  div.className = 'sysnote';
+  div.textContent = text;
+  t.appendChild(div);
+  t.scrollTop = t.scrollHeight;
+}
+
+function clearChat() {
+  apiMessages = [];
+  var t = document.getElementById('transcript');
+  t.innerHTML = '<div class="placeholder">Ask something like &ldquo;How is Isabelle doing in Math?&rdquo; or &ldquo;What is scheduled this week?&rdquo;</div>';
+}
+
+function setBusy(busy) {
+  document.getElementById('sendBtn').disabled = busy;
+  document.getElementById('chatInput').disabled = busy;
+}
+
+/* ================================================================
+   Agent loop
+   ================================================================ */
+
+async function runAgent(userText) {
+  var apiKey = getSavedApiKey();
+  if (!apiKey) {
+    appendSysNote('Add and save your Anthropic API key above first.');
+    return;
+  }
+  var model = document.getElementById('modelSelect').value;
+  appendBubble('user', userText);
+  apiMessages.push({ role: 'user', content: userText });
+  setBusy(true);
+  try {
+    var turn = 0;
+    while (turn < MAX_TOOL_TURNS) {
+      turn++;
+      var data = await callClaude(apiKey, model, apiMessages);
+      var content = data.content || [];
+      apiMessages.push({ role: 'assistant', content: content });
+
+      var toolUses = content.filter(function (b) { return b.type === 'tool_use'; });
+      var textBlocks = content.filter(function (b) { return b.type === 'text'; });
+
+      if (toolUses.length === 0) {
+        var finalText = textBlocks.map(function (b) { return b.text; }).join('\n');
+        appendBubble('assistant', finalText || '(no response text)');
+        return;
+      }
+
+      var resultsContent = [];
+      for (var i = 0; i < toolUses.length; i++) {
+        var tu = toolUses[i];
+        appendToolNote(tu.name, tu.input);
+        var result = callTool(tu.name, tu.input);
+        resultsContent.push({
+          type: 'tool_result',
+          tool_use_id: tu.id,
+          content: JSON.stringify(result)
+        });
+      }
+      apiMessages.push({ role: 'user', content: resultsContent });
+    }
+    appendSysNote('Stopped after ' + MAX_TOOL_TURNS + ' tool calls — try asking a more specific question.');
+  } catch (e) {
+    appendSysNote('Error talking to Claude: ' + e.message);
+  } finally {
+    setBusy(false);
+  }
+}
+
+function handleSend() {
+  var input = document.getElementById('chatInput');
+  var text = input.value.trim();
+  if (!text) {
+    return;
+  }
+  input.value = '';
+  runAgent(text);
+}
+
+document.getElementById('chatInput').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    handleSend();
+  }
+});
+
+refreshKeyStatus();
+
+</script>
+</body>
+</html>
