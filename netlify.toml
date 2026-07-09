@@ -4,8 +4,4 @@
 [functions]
   directory = "netlify/functions"
 
-# Serve the app at the root domain instead of requiring the full filename.
-[[redirects]]
-  from = "/"
-  to = "/r3-app-5-2-14.html"
-  status = 200
+
