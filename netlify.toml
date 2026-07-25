@@ -5,5 +5,5 @@
   directory = "netlify/functions"
 [[redirects]]
   from = "/app"
-  to = "/r3-app-v28.html"
+  to = "/r3-app-v29.html"
   status = 200
