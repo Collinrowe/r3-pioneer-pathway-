@@ -7,7 +7,9 @@ Five pillars: Curriculum Hub, Daily Planner & Grade Book, Compliance Tracking, F
 ## Architecture
 
 - Single-file HTML monolith: React UMD + inline CSS, deployed via GitHub → Netlify at r3pioneerpathway.com.
+- `index.html` (repo root) and `app.html` are separate on purpose: `index.html` is the marketing/waitlist landing page (plain static HTML/CSS/vanilla JS, no build step), `app.html` is the actual product, served at `/app` via `_redirects`. They used to be identical copies of the app — don't re-sync them; that was a bug, not the intended state.
 - Repo: `Collinrowe/r3-pioneer-pathway-` · Netlify site ID `4145a26a-6537-4cff-87b2-e8757ac5ce2d`.
+- Old numbered app versions and superseded tool versions live in `/archive`, not the repo root — root only has the current live files.
 - Persistence: originally localStorage; Supabase client is now wired in (`djyaiyasgytendldrtpa.supabase.co`, publishable key inline — this is expected to be public, protected by RLS, not a secret). **Verify current read/write split between localStorage and Supabase before building on top of either — do not assume memory notes are current, check the file.**
 - Migration target: Vite + React + TypeScript + Supabase. Phase 0 scaffold can run in parallel to the existing app; sequence curriculum AI personalization into Phase 2 alongside the Curriculum screen migration to avoid building it twice.
 - File versioning: `r3-app-[major]-[minor]-[patch].html`. Bump `CONTENT_VERSION` in every output file.
@@ -16,7 +18,7 @@ Five pillars: Curriculum Hub, Daily Planner & Grade Book, Compliance Tracking, F
 
 1. Every edit applied as Python `str.replace()`, with `assert s.count(old) == 1` run *before* the substitution. If the anchor isn't unique, stop and get more context — never guess.
 2. Validate every inline `<script>` block with `node --check` after every change, before delivering the file.
-3. **No `//` inline comments anywhere in the JS — they break minification.** Use `/* */` block comments only. (Known current violations to clean up: two `//` comments around the WeekBar function and the lesson-toggle handler — grep for `//` inside `<script>` blocks and remove them.)
+3. **No `//` inline comments anywhere in the JS — they break minification.** Use `/* */` block comments only. `app.html` was fully swept clean of these; `index.html` was written comment-free from the start since it's a fresh rebuild, not derived from `app.html`. Both currently have zero `//` violations — keep it that way.
 4. Escape all apostrophes in single-quoted strings as `’`.
 5. Never edit an intermediate or corrupted file — always branch off the last tested, known-good version.
 6. The AI/agent layer never touches production files directly on its own initiative — proposals go through Collin's approval before commit.
@@ -35,11 +37,10 @@ Five-state lesson model: `not_started / in_progress / tested_out / mastered / ne
 ## Roadmap (current → next)
 
 1. **Reconcile this file against the live repo** — confirm actual Supabase migration status and current CONTENT_VERSION before starting new work.
-2. Clean up the two `//` comment violations.
-3. Onboarding Build 2 — screens S22–S28 (generation screen, curriculum review, schedule, year calendar, add-another-student loop), then remove the old inert wizard code.
-4. **Student Portal (v5-3-0)** — PIN login + avatar selection, Student Today dashboard with lesson-status pills (Approved / Waiting for Review / Redo / Start), work-submission → parent-review → approval flow. Build on the mastery spine and single-data-spine principle above.
-5. Architecture migration to Vite + TS + Supabase, Phase 0 scaffold in parallel.
-6. MAP Growth RIT score parsing direct into grade book (currently stored as uploaded PDFs).
+2. Onboarding Build 2 — screens S22–S28 (generation screen, curriculum review, schedule, year calendar, add-another-student loop), then remove the old inert wizard code.
+3. **Student Portal (v5-3-0)** — PIN login + avatar selection, Student Today dashboard with lesson-status pills (Approved / Waiting for Review / Redo / Start), work-submission → parent-review → approval flow. Build on the mastery spine and single-data-spine principle above.
+4. Architecture migration to Vite + TS + Supabase, Phase 0 scaffold in parallel.
+5. MAP Growth RIT score parsing direct into grade book (currently stored as uploaded PDFs).
 
 ## Standardized test integration (decided)
 
