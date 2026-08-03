@@ -10,8 +10,9 @@ Five pillars: Curriculum Hub, Daily Planner & Grade Book, Compliance Tracking, F
 - `index.html` (repo root) and `app.html` are separate on purpose: `index.html` is the marketing/waitlist landing page (plain static HTML/CSS/vanilla JS, no build step), `app.html` is the actual product, served at `/app` via `_redirects`. They used to be identical copies of the app — don't re-sync them; that was a bug, not the intended state.
 - Repo: `Collinrowe/r3-pioneer-pathway-` · Netlify site ID `4145a26a-6537-4cff-87b2-e8757ac5ce2d`.
 - Old numbered app versions and superseded tool versions live in `/archive`, not the repo root — root only has the current live files.
-- Persistence: originally localStorage; Supabase client is now wired in (`djyaiyasgytendldrtpa.supabase.co`, publishable key inline — this is expected to be public, protected by RLS, not a secret). **Verify current read/write split between localStorage and Supabase before building on top of either — do not assume memory notes are current, check the file.**
-- Migration target: Vite + React + TypeScript + Supabase. Phase 0 scaffold can run in parallel to the existing app; sequence curriculum AI personalization into Phase 2 alongside the Curriculum screen migration to avoid building it twice.
+- Persistence (reconciled against `app.html` on 2026-08-02 — trust this over older notes): Supabase Auth is a hard gate — every visitor must log in or sign up (email/password) before the app renders at all, no guest/skip path. Data-wise there is exactly one Supabase table, `app_state`, holding one JSON blob per account (`profile_id` + `full_state`) — not normalized tables. Every save writes to `localStorage` first, then mirrors the same whole blob to Supabase if logged in; load prefers Supabase then falls back to `localStorage`. Two minor features (`gl_bookmarks`, `subj_default_time`) live in `localStorage` only, never synced. RLS policies on `app_state` itself were not verified in this pass — confirm in Supabase directly before relying on the "families can't see each other's data" assumption.
+- **Decision (2026-08-02): data will NOT be normalized into separate tables (students/courses/grades/etc.) as a standalone project.** Collin wants that, but it's folded into the Vite/TS/Supabase migration below rather than bolted onto the current single-file blob architecture — doing it twice isn't worth it. Student Portal proceeds now on the current single-blob setup regardless, accepting it'll be reworked when the migration happens.
+- Migration target: Vite + React + TypeScript + Supabase. Phase 0 scaffold can run in parallel to the existing app; sequence curriculum AI personalization into Phase 2 alongside the Curriculum screen migration to avoid building it twice. **This migration is also where the `app_state` blob gets split into real normalized tables with RLS — that's now part of this item's scope, not separate.**
 - File versioning: `r3-app-[major]-[minor]-[patch].html`. Bump `CONTENT_VERSION` in every output file.
 
 ## Non-negotiable engineering rules
@@ -36,11 +37,10 @@ Five-state lesson model: `not_started / in_progress / tested_out / mastered / ne
 
 ## Roadmap (current → next)
 
-1. **Reconcile this file against the live repo** — confirm actual Supabase migration status and current CONTENT_VERSION before starting new work.
-2. Onboarding Build 2 — screens S22–S28 (generation screen, curriculum review, schedule, year calendar, add-another-student loop), then remove the old inert wizard code.
-3. **Student Portal (v5-3-0)** — PIN login + avatar selection, Student Today dashboard with lesson-status pills (Approved / Waiting for Review / Redo / Start), work-submission → parent-review → approval flow. Build on the mastery spine and single-data-spine principle above.
-4. Architecture migration to Vite + TS + Supabase, Phase 0 scaffold in parallel.
-5. MAP Growth RIT score parsing direct into grade book (currently stored as uploaded PDFs).
+1. Onboarding Build 2 — screens S22–S28 (generation screen, curriculum review, schedule, year calendar, add-another-student loop), then remove the old inert wizard code.
+2. **Student Portal (v5-3-0)** — PIN login + avatar selection, Student Today dashboard with lesson-status pills (Approved / Waiting for Review / Redo / Start), work-submission → parent-review → approval flow. Build on the mastery spine and single-data-spine principle above, on top of the current single-blob data setup (see decision above — not blocked on normalization).
+3. Architecture migration to Vite + TS + Supabase, Phase 0 scaffold in parallel — includes normalizing `app_state` into real tables with RLS (see decision above).
+4. MAP Growth RIT score parsing direct into grade book (currently stored as uploaded PDFs).
 
 ## Standardized test integration (decided)
 
