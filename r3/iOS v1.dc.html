@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="./_ds/classical-9b1c2f61-3044-41a1-a70f-ece2b1490317/styles.css">
+  <script src="./_ds/classical-9b1c2f61-3044-41a1-a70f-ece2b1490317/_ds_bundle.js"></script>
+  <script src="./image-slot.js"></script>
+  <meta name="design_doc_mode" content="canvas">
+  <style>
+    body{margin:0;background:var(--color-bg);}
+    .pp-icon{width:18px;height:18px;flex:none;}
+    .pp-drawer-item{display:flex;align-items:center;gap:12px;padding:11px 16px;font-family:var(--font-body);font-size:15px;color:var(--color-text);text-decoration:none;}
+    .pp-drawer-item.on{background:color-mix(in oklch, var(--color-accent) 12%, transparent);border-radius:var(--radius-md);color:var(--color-accent-700);font-weight:600;}
+    .pp-kicker{font-family:var(--font-body);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-neutral-700);margin:0;}
+    .pp-h1{font-family:var(--font-heading);font-weight:var(--font-heading-weight,600);font-size:30px;margin:2px 0 0;color:var(--color-text);}
+    .pp-hairline{border:none;border-top:1px solid var(--color-divider);margin:0;}
+    .pp-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;font-family:var(--font-body);font-size:11px;font-weight:600;border:1px solid currentColor;}
+    .pp-scrollx{display:flex;gap:10px;overflow-x:auto;padding-bottom:2px;}
+    .pp-scrollx::-webkit-scrollbar{display:none;}
+  </style>
+</helmet>
+
+<div style="padding:56px 56px 120px;max-width:1200px;">
+  <p style="font-family:var(--font-body);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 8px;">App review &amp; mobile map</p>
+  <h1 style="font-family:var(--font-heading);font-weight:var(--font-heading-weight,600);font-size:44px;margin:0 0 14px;color:var(--color-text);">Pioneer Pathway — mobile</h1>
+  <p style="font-family:var(--font-body);font-size:15px;line-height:1.7;color:var(--color-neutral-700);max-width:760px;margin:0 0 10px;">Pioneer Pathway is currently a responsive web app (React) run by homeschooling parents to plan lessons, track compliance, and connect with community. Reviewing it surfaced eight primary sections reachable from a persistent sidebar on desktop, collapsing to a bottom scroll-nav + drawer on mobile web.</p>
+  <p style="font-family:var(--font-body);font-size:15px;line-height:1.7;color:var(--color-neutral-700);max-width:760px;margin:0 0 28px;">This map translates that structure to native iOS: a hamburger-triggered sidebar drawer (left, mirroring the web app's own drawer) replaces the bottom tab bar, since a family may check 5+ sections in a session and a drawer scales better than a cramped tab strip. Each frame below shows a section's primary top-level view; internal tabs (Community's five, Resources' four) are shown as segmented controls rather than separate screens, per scope.</p>
+  <div class="hr" style="margin:0 0 36px;"></div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:52px;align-items:flex-start;">
+
+    <!-- 1. TODAY -->
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div><p class="pp-kicker" style="margin:0;">01 · Home</p><p style="font-family:var(--font-heading);font-size:19px;font-weight:600;margin:2px 0 0;">Today</p></div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402,874">
+        <div style="height:100%;overflow:auto;background:var(--color-bg);display:flex;flex-direction:column;">
+          <div style="padding:50px 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+            <svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <div style="display:flex;gap:-6px;">
+              <div style="width:30px;height:30px;border-radius:50%;background:var(--color-accent-200);border:2px solid var(--color-bg);display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:13px;font-weight:700;color:var(--color-accent-900);">E</div>
+              <div style="width:30px;height:30px;border-radius:50%;background:var(--color-neutral-300);border:2px solid var(--color-bg);margin-left:-10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:13px;font-weight:700;color:var(--color-neutral-900);">M</div>
+            </div>
+          </div>
+          <div style="padding:0 20px 16px;">
+            <p class="pp-kicker">Tuesday, August 4</p>
+            <h1 class="pp-h1">Good morning</h1>
+          </div>
+          <div class="pp-scrollx" style="padding:0 20px 18px;">
+            <div class="card" style="flex:none;min-width:96px;padding:12px;text-align:center;"><div style="font-family:var(--font-heading);font-size:22px;font-weight:600;color:var(--color-accent-700);">12</div><div style="font-family:var(--font-body);font-size:10.5px;color:var(--color-neutral-700);">day streak</div></div>
+            <div class="card" style="flex:none;min-width:96px;padding:12px;text-align:center;"><div style="font-family:var(--font-heading);font-size:22px;font-weight:600;">8.5</div><div style="font-family:var(--font-body);font-size:10.5px;color:var(--color-neutral-700);">hrs this wk</div></div>
+            <div class="card" style="flex:none;min-width:96px;padding:12px;text-align:center;"><div style="font-family:var(--font-heading);font-size:22px;font-weight:600;color:var(--color-accent-700);">92%</div><div style="font-family:var(--font-body);font-size:10.5px;color:var(--color-neutral-700);">compliant</div></div>
+          </div>
+          <hr class="pp-hairline">
+          <div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px;">
+            <div>
+              <p style="font-family:var(--font-body);font-size:13px;font-weight:700;color:var(--color-text);margin:0 0 8px;">Ella · Grade 4</p>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div class="card" style="padding:12px 14px;display:flex;align-items:center;justify-content:space-between;"><span class="pp-tag" style="color:#7A9270;">Math</span><span style="font-family:var(--font-body);font-size:12.5px;color:var(--color-neutral-700);">30 min</span></div>
+                <div class="card" style="padding:12px 14px;display:flex;align-items:center;justify-content:space-between;"><span class="pp-tag" style="color:#C89078;">Reading</span><span style="font-family:var(--font-body);font-size:12.5px;color:var(--color-neutral-700);">45 min</span></div>
+              </div>
+            </div>
+            <div>
+              <p style="font-family:var(--font-body);font-size:13px;font-weight:700;color:var(--color-text);margin:0 0 8px;">Milo · Grade 1</p>
+              <div class="card" style="padding:12px 14px;display:flex;align-items:center;justify-content:space-between;"><span class="pp-tag" style="color:#8AACC8;">Science</span><span style="font-family:var(--font-body);font-size:12.5px;color:var(--color-neutral-700);">30 min</span></div>
+            </div>
+          </div>
+          <div style="padding:8px 20px 24px;margin-top:auto;">
+            <button class="btn btn-secondary btn-block">Ask AI for help planning</button>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- 2. MENU / SIDEBAR -->
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div><p class="pp-kicker" style="margin:0;">02 · Navigation</p><p style="font-family:var(--font-heading);font-size:19px;font-weight:600;margin:2px 0 0;">Menu (drawer)</p></div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402,874">
+        <div style="height:100%;position:relative;background:rgba(20,20,18,.4);">
+          <div style="position:absolute;inset:0;right:64px;background:var(--color-surface,#fff);display:flex;flex-direction:column;padding-top:56px;">
+            <div style="padding:8px 16px 16px;">
+              <p style="font-family:var(--font-heading);font-size:17px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text);margin:0;">Pioneer Pathway</p>
+            </div>
+            <hr class="pp-hairline">
+            <div style="padding:10px 8px;display:flex;flex-direction:column;gap:2px;flex:1;">
+              <a class="pp-drawer-item on"><svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5"/><path d="M6 9v10h12V9"/></svg>Today</a>
+              <a class="pp-drawer-item"><svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3.3 2.6-6 5.5-6s5.5 2.7 5.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M14.5 20c.2-2.6 2-4.6 4-4.6.8 0 1.6.3 2.2.8"/></svg>Family</a>
+              <a class="pp-drawer-item"><svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>Schedule</a>
+              <a class="pp-drawer-item"><svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C6 4.2 8.5 4 12 5.2c3.5-1.2 6-1 8 .3v13c-2-1.3-4.5-1.5-8-.3-3.5-1.2-6-1-8 .3z"/><path d="M12 5.2v13"/></svg>Curriculum</a>
+              <a class="pp-drawer-item"><svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Compliance</a>
+              <a class="pp-drawer-item"><svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.2 2.3 3.4 5.4 3.4 8.5s-1.2 6.2-3.4 8.5c-2.2-2.3-3.4-5.4-3.4-8.5s1.2-6.2 3.4-8.5z"/></svg>Community</a>
+              <a class="pp-drawer-item"><svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M15 9l-2 5-5 2 2-5z"/></svg>Resources</a>
+              <a class="pp-drawer-item"><svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19V13M4 10V5M12 19V11M12 8V5M20 19V15M20 12V5" stroke-linecap="round"/><path d="M1.5 13h5M9.5 8h5M17.5 15h5"/></svg>Reports</a>
+            </div>
+            <hr class="pp-hairline">
+            <div style="padding:14px 16px 22px;display:flex;align-items:center;gap:10px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--color-accent-200);display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-weight:700;font-size:13px;color:var(--color-accent-900);">S</div>
+              <div><div style="font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--color-text);">The Sawyer Family</div><div style="font-family:var(--font-body);font-size:11px;color:var(--color-neutral-700);">2 children · Texas</div></div>
+            </div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- 3. FAMILY -->
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div><p class="pp-kicker" style="margin:0;">03 · Family</p><p style="font-family:var(--font-heading);font-size:19px;font-weight:600;margin:2px 0 0;">Family</p></div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402,874">
+        <div style="height:100%;overflow:auto;background:var(--color-bg);">
+          <div style="padding:50px 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+            <svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <h1 style="font-family:var(--font-heading);font-size:22px;font-weight:600;margin:0;">Family</h1>
+            <svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <div style="padding:6px 20px 24px;display:flex;flex-direction:column;gap:14px;">
+            <div class="card elev-sm" style="padding:16px;display:flex;gap:14px;align-items:center;">
+              <div style="width:52px;height:52px;border-radius:50%;background:var(--color-accent-200);display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:20px;font-weight:700;color:var(--color-accent-900);flex:none;">E</div>
+              <div style="flex:1;">
+                <div style="font-family:var(--font-heading);font-size:17px;font-weight:600;">Ella</div>
+                <div style="font-family:var(--font-body);font-size:12px;color:var(--color-neutral-700);margin-bottom:6px;">Grade 4 · Classical approach</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;"><span class="tag tag-outline">Math</span><span class="tag tag-outline">Reading</span><span class="tag tag-outline">Science</span></div>
+              </div>
+            </div>
+            <div class="card elev-sm" style="padding:16px;display:flex;gap:14px;align-items:center;">
+              <div style="width:52px;height:52px;border-radius:50%;background:var(--color-neutral-300);display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:20px;font-weight:700;color:var(--color-neutral-900);flex:none;">M</div>
+              <div style="flex:1;">
+                <div style="font-family:var(--font-heading);font-size:17px;font-weight:600;">Milo</div>
+                <div style="font-family:var(--font-body);font-size:12px;color:var(--color-neutral-700);margin-bottom:6px;">Grade 1 · Charlotte Mason</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;"><span class="tag tag-outline">Reading</span><span class="tag tag-outline">Art</span></div>
+              </div>
+            </div>
+            <button class="btn btn-ghost btn-block">+ Add a child</button>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- 4. SCHEDULE -->
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div><p class="pp-kicker" style="margin:0;">04 · Planning</p><p style="font-family:var(--font-heading);font-size:19px;font-weight:600;margin:2px 0 0;">Schedule</p></div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402,874">
+        <div style="height:100%;overflow:auto;background:var(--color-bg);">
+          <div style="padding:50px 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+            <svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <h1 style="font-family:var(--font-heading);font-size:22px;font-weight:600;margin:0;">This Week</h1>
+            <span style="width:18px;"></span>
+          </div>
+          <div class="pp-scrollx" style="padding:0 20px 16px;">
+            <div style="flex:none;width:52px;height:64px;border-radius:14px;background:var(--color-accent-700);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font-body);"><span style="font-size:10px;">TUE</span><span style="font-size:17px;font-weight:700;">4</span></div>
+            <div style="flex:none;width:52px;height:64px;border-radius:14px;border:1px solid var(--color-divider);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font-body);"><span style="font-size:10px;color:var(--color-neutral-700);">WED</span><span style="font-size:17px;font-weight:700;">5</span></div>
+            <div style="flex:none;width:52px;height:64px;border-radius:14px;border:1px solid var(--color-divider);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font-body);"><span style="font-size:10px;color:var(--color-neutral-700);">THU</span><span style="font-size:17px;font-weight:700;">6</span></div>
+            <div style="flex:none;width:52px;height:64px;border-radius:14px;border:1px solid var(--color-divider);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font-body);"><span style="font-size:10px;color:var(--color-neutral-700);">FRI</span><span style="font-size:17px;font-weight:700;">7</span></div>
+          </div>
+          <hr class="pp-hairline">
+          <div style="padding:16px 20px;display:flex;flex-direction:column;gap:10px;">
+            <div class="card" style="padding:12px 14px;display:flex;align-items:center;gap:10px;"><span style="width:4px;height:28px;background:#7A9270;border-radius:2px;"></span><div style="flex:1;"><div style="font-family:var(--font-body);font-size:13.5px;font-weight:600;">Math · Ella</div><div style="font-family:var(--font-body);font-size:11.5px;color:var(--color-neutral-700);">Fractions, unit 3</div></div><span style="font-family:var(--font-body);font-size:12px;color:var(--color-neutral-700);">30m</span></div>
+            <div class="card" style="padding:12px 14px;display:flex;align-items:center;gap:10px;"><span style="width:4px;height:28px;background:#C89078;border-radius:2px;"></span><div style="flex:1;"><div style="font-family:var(--font-body);font-size:13.5px;font-weight:600;">Reading · Ella</div><div style="font-family:var(--font-body);font-size:11.5px;color:var(--color-neutral-700);">Chapter 8</div></div><span style="font-family:var(--font-body);font-size:12px;color:var(--color-neutral-700);">45m</span></div>
+            <div class="card" style="padding:12px 14px;display:flex;align-items:center;gap:10px;"><span style="width:4px;height:28px;background:#8AACC8;border-radius:2px;"></span><div style="flex:1;"><div style="font-family:var(--font-body);font-size:13.5px;font-weight:600;">Science · Milo</div><div style="font-family:var(--font-body);font-size:11.5px;color:var(--color-neutral-700);">Weather unit</div></div><span style="font-family:var(--font-body);font-size:12px;color:var(--color-neutral-700);">30m</span></div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- 5. CURRICULUM -->
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div><p class="pp-kicker" style="margin:0;">05 · Planning</p><p style="font-family:var(--font-heading);font-size:19px;font-weight:600;margin:2px 0 0;">Curriculum</p></div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402,874">
+        <div style="height:100%;overflow:auto;background:var(--color-bg);">
+          <div style="padding:50px 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+            <svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <h1 style="font-family:var(--font-heading);font-size:22px;font-weight:600;margin:0;">Curriculum</h1>
+            <span style="width:18px;"></span>
+          </div>
+          <div class="seg" style="margin:0 20px 16px;"><span class="seg-opt" aria-selected="true">Map</span><span class="seg-opt">Library</span></div>
+          <div style="padding:0 20px 24px;display:flex;flex-direction:column;gap:16px;">
+            <p style="font-family:var(--font-body);font-size:12.5px;font-weight:700;color:var(--color-text);margin:0;">Ella · Grade 4</p>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div><div style="display:flex;justify-content:space-between;font-family:var(--font-body);font-size:13px;margin-bottom:6px;"><span style="font-weight:600;">Math</span><span style="color:var(--color-neutral-700);">14 / 30 units</span></div><div style="height:6px;border-radius:99px;border:1px solid var(--color-divider);overflow:hidden;"><div style="width:47%;height:100%;background:var(--color-accent);"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-family:var(--font-body);font-size:13px;margin-bottom:6px;"><span style="font-weight:600;">Reading</span><span style="color:var(--color-neutral-700);">9 / 24 units</span></div><div style="height:6px;border-radius:99px;border:1px solid var(--color-divider);overflow:hidden;"><div style="width:38%;height:100%;background:var(--color-accent);"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-family:var(--font-body);font-size:13px;margin-bottom:6px;"><span style="font-weight:600;">Science</span><span style="color:var(--color-neutral-700);">6 / 20 units</span></div><div style="height:6px;border-radius:99px;border:1px solid var(--color-divider);overflow:hidden;"><div style="width:30%;height:100%;background:var(--color-accent);"></div></div></div>
+            </div>
+            <button class="btn btn-secondary btn-block">Browse curriculum library</button>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- 6. COMPLIANCE -->
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div><p class="pp-kicker" style="margin:0;">06 · Recordkeeping</p><p style="font-family:var(--font-heading);font-size:19px;font-weight:600;margin:2px 0 0;">Compliance</p></div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402,874">
+        <div style="height:100%;overflow:auto;background:var(--color-bg);">
+          <div style="padding:50px 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+            <svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <h1 style="font-family:var(--font-heading);font-size:22px;font-weight:600;margin:0;">Compliance</h1>
+            <span style="width:18px;"></span>
+          </div>
+          <p style="text-align:center;font-family:var(--font-body);font-size:12px;color:var(--color-neutral-700);margin:0 0 18px;">Texas · Low regulation</p>
+          <div style="padding:0 20px 24px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="card" style="padding:14px;text-align:center;"><div style="font-family:var(--font-heading);font-size:24px;font-weight:600;color:var(--color-accent-700);">148</div><div style="font-family:var(--font-body);font-size:11px;color:var(--color-neutral-700);">days logged</div></div>
+              <div class="card" style="padding:14px;text-align:center;"><div style="font-family:var(--font-heading);font-size:24px;font-weight:600;">6/6</div><div style="font-family:var(--font-body);font-size:11px;color:var(--color-neutral-700);">subjects covered</div></div>
+            </div>
+            <div class="card" style="padding:16px;">
+              <p style="font-family:var(--font-body);font-size:13px;font-weight:700;margin:0 0 10px;">Subject coverage</p>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--font-body);font-size:13px;"><span>Math</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2.5" stroke-linecap="round"><path d="M4 12l5 5 11-11"/></svg></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--font-body);font-size:13px;"><span>Reading &amp; Language Arts</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2.5" stroke-linecap="round"><path d="M4 12l5 5 11-11"/></svg></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--font-body);font-size:13px;"><span>Good citizenship</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2.5" stroke-linecap="round"><path d="M4 12l5 5 11-11"/></svg></div>
+              </div>
+            </div>
+            <button class="btn btn-ghost btn-block">Export attendance report</button>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- 7. COMMUNITY -->
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div><p class="pp-kicker" style="margin:0;">07 · Connection</p><p style="font-family:var(--font-heading);font-size:19px;font-weight:600;margin:2px 0 0;">Community</p></div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402,874">
+        <div style="height:100%;overflow:auto;background:var(--color-bg);">
+          <div style="padding:50px 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+            <svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <h1 style="font-family:var(--font-heading);font-size:22px;font-weight:600;margin:0;">Community</h1>
+            <span style="width:18px;"></span>
+          </div>
+          <div class="pp-scrollx" style="padding:0 20px 16px;">
+            <span class="tag tag-accent">Local</span><span class="tag tag-outline">Groups</span><span class="tag tag-outline">Marketplace</span><span class="tag tag-outline">Events</span><span class="tag tag-outline">Mentorship</span>
+          </div>
+          <div style="padding:0 20px 24px;display:flex;flex-direction:column;gap:12px;">
+            <div class="card elev-sm" style="padding:16px;"><p class="card-kicker" style="margin:0;">Co-op · 2.1 mi</p><p class="card-title" style="margin:4px 0 6px;">Hill Country Classical Co-op</p><p class="card-body" style="margin:0;">Weekly Tues/Thurs classes for grades K–8. 14 open spots.</p></div>
+            <div class="card elev-sm" style="padding:16px;"><p class="card-kicker" style="margin:0;">Park day · 0.8 mi</p><p class="card-title" style="margin:4px 0 6px;">Wildflower Park Meetup</p><p class="card-body" style="margin:0;">Fridays 10am. Ages 4–12, all approaches welcome.</p></div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- 8. RESOURCES -->
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div><p class="pp-kicker" style="margin:0;">08 · Enrichment</p><p style="font-family:var(--font-heading);font-size:19px;font-weight:600;margin:2px 0 0;">Resources</p></div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402,874">
+        <div style="height:100%;overflow:auto;background:var(--color-bg);">
+          <div style="padding:50px 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+            <svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <h1 style="font-family:var(--font-heading);font-size:22px;font-weight:600;margin:0;">Resources</h1>
+            <span style="width:18px;"></span>
+          </div>
+          <div class="pp-scrollx" style="padding:0 20px 16px;">
+            <span class="tag tag-accent">Field Trips</span><span class="tag tag-outline">Sports</span><span class="tag tag-outline">Videos</span><span class="tag tag-outline">Library</span>
+          </div>
+          <div style="padding:0 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="card" style="padding:0;overflow:hidden;">
+              <div class="plate" style="margin:0;border-radius:0;"><image-slot id="ft1" style="width:100%;height:88px;" shape="rect" placeholder="Museum photo"></image-slot></div>
+              <p style="font-family:var(--font-body);font-size:12.5px;font-weight:600;padding:8px 10px 10px;margin:0;">Natural History Museum</p>
+            </div>
+            <div class="card" style="padding:0;overflow:hidden;">
+              <div class="plate" style="margin:0;border-radius:0;"><image-slot id="ft2" style="width:100%;height:88px;" shape="rect" placeholder="Park photo"></image-slot></div>
+              <p style="font-family:var(--font-body);font-size:12.5px;font-weight:600;padding:8px 10px 10px;margin:0;">State Park Trail</p>
+            </div>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- 9. REPORTS -->
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div><p class="pp-kicker" style="margin:0;">09 · Progress</p><p style="font-family:var(--font-heading);font-size:19px;font-weight:600;margin:2px 0 0;">Reports</p></div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402,874">
+        <div style="height:100%;overflow:auto;background:var(--color-bg);">
+          <div style="padding:50px 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+            <svg class="pp-icon" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <h1 style="font-family:var(--font-heading);font-size:22px;font-weight:600;margin:0;">Reports</h1>
+            <span style="width:18px;"></span>
+          </div>
+          <div style="padding:0 20px 24px;display:flex;flex-direction:column;gap:14px;">
+            <p style="font-family:var(--font-body);font-size:12.5px;font-weight:700;color:var(--color-text);margin:0;">Ella · this year</p>
+            <div class="card" style="padding:16px;">
+              <p style="font-family:var(--font-body);font-size:13px;font-weight:600;margin:0 0 10px;">Subject completion</p>
+              <div style="display:flex;align-items:flex-end;gap:10px;height:80px;">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;"><div style="width:100%;height:47%;background:var(--color-accent);border-radius:4px 4px 0 0;"></div><span style="font-family:var(--font-body);font-size:10px;color:var(--color-neutral-700);">Math</span></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;"><div style="width:100%;height:38%;background:var(--color-accent);border-radius:4px 4px 0 0;"></div><span style="font-family:var(--font-body);font-size:10px;color:var(--color-neutral-700);">Reading</span></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;"><div style="width:100%;height:30%;background:var(--color-accent);border-radius:4px 4px 0 0;"></div><span style="font-family:var(--font-body);font-size:10px;color:var(--color-neutral-700);">Science</span></div>
+              </div>
+            </div>
+            <div class="card" style="padding:16px;">
+              <p style="font-family:var(--font-body);font-size:13px;font-weight:600;margin:0 0 10px;">Milestones</p>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div style="display:flex;gap:10px;align-items:flex-start;"><span style="width:8px;height:8px;border-radius:50%;background:var(--color-accent);margin-top:5px;flex:none;"></span><span style="font-family:var(--font-body);font-size:12.5px;">Completed Fractions unit — Jul 28</span></div>
+                <div style="display:flex;gap:10px;align-items:flex-start;"><span style="width:8px;height:8px;border-radius:50%;background:var(--color-neutral-400);margin-top:5px;flex:none;"></span><span style="font-family:var(--font-body);font-size:12.5px;color:var(--color-neutral-700);">MAP Growth test — Sep 2</span></div>
+              </div>
+            </div>
+            <button class="btn btn-ghost btn-block">Download PDF report</button>
+          </div>
+        </div>
+      </x-import>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>
