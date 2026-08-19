@@ -4,6 +4,17 @@ Faith-rooted/values-based homeschool operating system for NC families, built by 
 
 Five pillars: Curriculum Hub, Daily Planner & Grade Book, Compliance Tracking, Family Budget, Community. Long-term moat/B2B pivot: **Chrysalis**, a physical pod network of small co-located learning groups (churches/homes) managed through the platform.
 
+## Working process (effective 2026-08-19 — non-negotiable)
+
+**Why this exists:** work happened outside tracked Claude Code sessions (a separate manual process using `deploy-app-update.sh`, no changelog, no session memory), which caused a real gap — several versions shipped with no record of what changed or why, and it fed a pattern of confusing reverts. This section exists to close that gap for good.
+
+- **`CHANGELOG.md` is the single source of truth for what's shipped.** Every version that goes live gets an entry there — what changed, why, which product surface, which work lane — *before* it ships. If it's not in the changelog, treat it as not really shipped, no matter what's technically live.
+- **Ritual for every ship, no exceptions: build → explain → sign off → ship.** Write the plain-language explanation first. Collin reviews and gives explicit sign-off. Only then does it get committed and pushed. This applies equally whether the work happens in a Claude Code session or any other channel.
+- **Do all Pioneer Pathway work through Claude Code sessions like this one.** A plain claude.ai chat or a manual terminal process has no persistent memory, no git-linked history, and no changelog discipline — that combination is exactly what caused the version-gap problem. If work ever does happen outside this channel, reconcile it into `CHANGELOG.md` and this file at the start of the next session, the same way it was done on 2026-08-19.
+- **Three product surfaces** (tag every changelog entry with one or more): **Website** (`index.html`, marketing/waitlist, already cleanly separate) · **Parent/Teacher app** (`app.html`, effectively the whole product today) · **Student app** (doesn't exist yet — Student Portal).
+- **Don't physically split Parent/Teacher and Student code yet.** They're required to share the same underlying data (see single-data-spine principle below) — splitting the codebase before the planned Vite/TS rewrite would mean duplicating shared logic and risking that principle. Compartmentalize at the *workflow* level (tag changes by surface in the changelog) until the rewrite makes a real split practical.
+- **Three work lanes** (pick one per work session — don't let scope drift across all three at once): **Technical** (database, security, data tracking/reporting) · **UI/UX** · **Marketing & customer acquisition**.
+
 ## Architecture
 
 - Single-file HTML monolith: React UMD + inline CSS, deployed via GitHub → Netlify at r3pioneerpathway.com.
@@ -32,7 +43,7 @@ Project: `djyaiyasgytendldrtpa`. Every table has row-level security on, one row 
 3. **No `//` inline comments anywhere in the JS — they break minification.** Use `/* */` block comments only. `app.html` was fully swept clean of these; `index.html` was written comment-free from the start since it's a fresh rebuild, not derived from `app.html`. Both currently have zero `//` violations — keep it that way.
 4. Escape all apostrophes in single-quoted strings as `’`.
 5. Never edit an intermediate or corrupted file — always branch off the last tested, known-good version.
-6. The AI/agent layer never touches production files directly on its own initiative — proposals go through Collin's approval before commit.
+6. The AI/agent layer never touches production files directly on its own initiative — proposals go through Collin's approval before commit. Every ship also gets a `CHANGELOG.md` entry written *before* the sign-off request, not after — see Working process above.
 
 ## Data model principles
 
@@ -77,3 +88,4 @@ CAT (Academic Excellence or Christian Liberty) is the default compliance recomme
 - Logo: `R3_logo.png` at project root (the `.jpeg` variant errors).
 - `Content_Ideas_.xlsx`: editorial content ideas rated by impact/readiness.
 - Gmail (if connected): read/search only, cannot send on Collin's behalf.
+- `deploy-app-update.sh` (repo root): a manual deploy script from the untracked-work period (2026-08-19 root cause). Safe and well-built (version check + git status review + typed confirmation before push), but using it bypasses the changelog/sign-off ritual above — don't rely on it going forward; do deploys through this session instead.
