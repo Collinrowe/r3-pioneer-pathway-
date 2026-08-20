@@ -17,6 +17,14 @@ A one-page, printable checklist covering what North Carolina actually requires (
 
 ---
 
+## Phase 0 rewrite progress (saved, not live — separate project, doesn't touch the real site)
+
+### 2026-08-20 — Login wired into the rewrite project
+Connected the new, properly-organized rewrite to the same account system the live app already uses (same accounts, same passwords, nothing changes for existing users). Built the login/signup screen and confirmed it actually talks to the real account system correctly.
+**Surface:** Parent/Teacher (rewrite) · **Lane:** Technical
+
+---
+
 ## Shipped
 
 ### 2026-08-19 — v64
