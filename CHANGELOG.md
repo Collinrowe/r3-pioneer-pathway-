@@ -7,16 +7,12 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ---
 
-## Pending — not yet live
-
-### v64 — "Demo mode" link
-Adds a special web link (`?demo=1`) that lets someone use the app without logging in, starting from a completely empty account. Also adds a related `?devmode=1` link and a hidden on-device setting that do the same thing. Once triggered on a browser, it's remembered — that browser skips login from then on, link or no link.
-**Surface:** Parent/Teacher · **Lane:** Technical (security-relevant)
-**Status: awaiting Collin's decision on whether this ships as-is.**
-
----
-
 ## Shipped
+
+### 2026-08-19 — v64
+Added a special web link (`?demo=1`) that lets someone use the app without logging in, starting from a completely empty account — plus a related `?devmode=1` link and a hidden on-device setting that do the same thing without wiping data. Once triggered on a browser, it's remembered — that browser skips login from then on, link or no link.
+**Decision (2026-08-19):** private testing tool only, not advertised anywhere on the site — no public "try it" button. Collin has the direct links to use himself.
+**Surface:** Parent/Teacher · **Lane:** Technical (security-relevant)
 
 ### 2026-08-17 — v63
 Fixed a bug that could wipe out a family's onboarding progress on load.
