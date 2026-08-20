@@ -27,6 +27,9 @@ A full accounting of every connected service, skill, and API key available for t
 A scheduled job researching real, polished app UI (education platforms, family apps, and general best-in-class examples) to guide moving the app's design away from a generic "AI-built" look. Fired at 2026-08-20 02:35 UTC; result expected as `research/ui-inspiration-2026-08-20.md` plus a GitHub notification with a summary.
 **Surface:** Parent/Teacher · **Lane:** UI/UX
 
+### 2026-08-20 — Session recap + tomorrow's agenda
+A plain-language recap of everything from tonight's session, plus a proposed agenda for the next session (review the UI research and the gap list; the compliance checklist redesign stays on Friday's schedule, not tomorrow's). Saved at `research/session-recap-2026-08-20.md`. A reminder is scheduled for 2026-08-20 9am ET.
+
 ---
 
 ## Phase 0 rewrite progress (saved, not live — separate project, doesn't touch the real site)
