@@ -31,6 +31,25 @@ Everything below is already connected and usable right now — nothing here requ
 - **Your database's public key (Supabase)** — already public by design (protected by the privacy rules on the database side, not by being secret), already documented, nothing to change.
 - **Missing, and worth knowing about:** there's currently no way to actually *send* email from this project — Gmail is read-only, and nothing else is connected for sending. This directly matters for the compliance checklist decision (it's supposed to live behind an email signup) — actually delivering that checklist by email, or managing that signup list, needs a dedicated email-sending service connected first. This is a concrete next step, not just a nice-to-have.
 
+## What's actually missing (the real gap list, checked directly — not just "nice to have")
+
+The list above is what's already connected. Here's what isn't, ranked by how much it actually matters right now:
+
+**Urgent — actively blocking things you already want to do:**
+1. **A way to actually collect signups.** Checked the homepage code directly: right now, the waitlist email box only saves each visitor's email inside *their own browser*. It never reaches you. If 50 people signed up today, there'd currently be no way for you to know who they are. This needs fixing regardless of anything else.
+2. **A way to send email.** Needed for the compliance-checklist signup gate, and for any future "you're off the waitlist" type email. Nothing is connected for sending right now (Gmail is read-only).
+
+**Worth having soon — once you're actively pushing on marketing:**
+3. **Website analytics.** No visibility right now into how many people visit the homepage or what they do once there.
+4. **Social media posting.** Nothing connected for X, Instagram, Facebook, or TikTok if social content becomes part of customer acquisition.
+
+**Worth having eventually — not urgent:**
+5. **Error/uptime monitoring.** No automatic alert if the live site breaks or goes down — currently only caught by chance.
+6. **Text messaging.** No way to send SMS reminders to families (e.g. compliance deadlines) if that becomes a feature.
+7. **Domain/DNS management.** No visibility into or control over the domain registration itself (separate from website hosting, which is covered).
+
+The first two are the real priority. Everything else can wait.
+
 ## Should this project use other AI systems besides Claude?
 
 Short answer: no, not right now.

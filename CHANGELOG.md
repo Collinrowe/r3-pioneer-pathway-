@@ -19,11 +19,13 @@ A one-page, printable checklist covering what North Carolina actually requires (
 
 ## Reference material (not shipped features — background research to inform future work)
 
-### 2026-08-20 — Tools/connectors inventory
-A full accounting of every connected service, skill, and API key available for this project, plus a recommendation to stay on a single AI provider (Claude) for now. Surfaced one real gap: no email-sending service is connected yet, which the compliance-checklist email-gate decision depends on. Saved at `research/tools-and-connectors-2026-08-20.md`.
+### 2026-08-20 — Tools/connectors inventory + real gap list
+A full accounting of every connected service, skill, and API key available for this project, plus a recommendation to stay on a single AI provider (Claude) for now. Also checked directly and confirmed the actual gaps, ranked by urgency: **(1) the homepage waitlist form doesn't actually send signups anywhere — they only save in each visitor's own browser, so Collin currently can't see who's signed up; (2) no email-sending service is connected**, which the compliance-checklist email-gate decision also depends on. Lower-priority gaps also listed: analytics, social posting, uptime monitoring, SMS, domain/DNS access. Saved at `research/tools-and-connectors-2026-08-20.md`.
+**Surface:** Website · **Lane:** Marketing + Technical
 
-### 2026-08-20 — Overnight UI research (in progress)
-A scheduled job researching real, polished app UI (education platforms, family apps, and general best-in-class examples) to guide moving the app's design away from a generic "AI-built" look. Result expected as `research/ui-inspiration-2026-08-20.md` plus a GitHub notification with a summary.
+### 2026-08-20 — Overnight UI research
+A scheduled job researching real, polished app UI (education platforms, family apps, and general best-in-class examples) to guide moving the app's design away from a generic "AI-built" look. Fired at 2026-08-20 02:35 UTC; result expected as `research/ui-inspiration-2026-08-20.md` plus a GitHub notification with a summary.
+**Surface:** Parent/Teacher · **Lane:** UI/UX
 
 ---
 
