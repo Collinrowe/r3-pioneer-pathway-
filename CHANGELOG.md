@@ -17,6 +17,16 @@ A one-page, printable checklist covering what North Carolina actually requires (
 
 ---
 
+## Reference material (not shipped features — background research to inform future work)
+
+### 2026-08-20 — Tools/connectors inventory
+A full accounting of every connected service, skill, and API key available for this project, plus a recommendation to stay on a single AI provider (Claude) for now. Surfaced one real gap: no email-sending service is connected yet, which the compliance-checklist email-gate decision depends on. Saved at `research/tools-and-connectors-2026-08-20.md`.
+
+### 2026-08-20 — Overnight UI research (in progress)
+A scheduled job researching real, polished app UI (education platforms, family apps, and general best-in-class examples) to guide moving the app's design away from a generic "AI-built" look. Result expected as `research/ui-inspiration-2026-08-20.md` plus a GitHub notification with a summary.
+
+---
+
 ## Phase 0 rewrite progress (saved, not live — separate project, doesn't touch the real site)
 
 ### 2026-08-20 — Login wired into the rewrite project
