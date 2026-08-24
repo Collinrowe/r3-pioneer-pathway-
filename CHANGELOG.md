@@ -9,6 +9,10 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-08-24 — Full status report (printable)
+A complete, thorough status report covering everything done, connected-but-not-live, and still open — including the stalled MailerLite connection and the unfixed waitlist-capture problem. Built as a printable document matching the site's real brand, same pattern as the compliance checklist. Saved at `research/status-report-2026-08-24.html`.
+**Surface:** N/A (internal) · **Lane:** N/A (internal)
+
 ### NC Homeschool Compliance Checklist (lead magnet)
 A one-page, printable checklist covering what North Carolina actually requires (filing deadline, required subjects, testing/records) plus what it doesn't (no portfolio, no curriculum approval, no teaching credential). Content pulled directly from the app's own compliance data. First draft saved at `assets/nc-homeschool-compliance-checklist.html` — not linked from the live site yet.
 **Collin's review (2026-08-19):** "not great but it's a start" — needs another design pass before it ships. Scheduled to revisit in a few days.

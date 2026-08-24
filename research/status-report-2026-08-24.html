@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pioneer Pathway — Status Report — 2026-08-24</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF7ED; --ink:#211C16; --ink-2:#3A3226; --ink-3:#5F5647;
+    --line:rgba(33,28,22,0.18); --accent:#B24A26; --accent-wash:#F4E9CF;
+    --sage:#5F6E4F; --sage-wash:#E9EEE1; --amber-wash:#F6ECD7;
+    --font-display:'Fraunces',serif; --font-body:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:#E7E2D4;color:var(--ink);font-family:var(--font-body);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .sheet{max-width:820px;margin:40px auto;background:var(--paper);padding:56px 64px 50px;box-shadow:0 24px 60px -24px rgba(33,28,22,0.35);}
+  .toolbar{max-width:820px;margin:0 auto;padding:18px 0 0;display:flex;justify-content:center;}
+  .print-btn{font-family:var(--font-body);font-weight:600;font-size:13px;color:var(--ink-2);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;}
+  .print-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+  .masthead{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding-bottom:18px;border-bottom:2px solid var(--ink);}
+  .masthead span.name{font-family:var(--font-display);font-weight:600;font-size:15px;}
+  .doc-label{font-family:var(--font-body);font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);text-align:right;}
+  h1{font-family:var(--font-display);font-weight:500;font-size:29px;line-height:1.16;letter-spacing:-.01em;margin:24px 0 6px;text-wrap:balance;}
+  .dek{font-size:14px;color:var(--ink-2);margin:0 0 30px;}
+
+  h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:30px 0 4px;padding-top:16px;border-top:1px solid var(--line);}
+  h2:first-of-type{border-top:none;padding-top:0;}
+  .h2-note{font-size:12px;color:var(--ink-3);margin:0 0 12px;}
+
+  h3{font-family:var(--font-body);font-weight:700;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:16px 0 8px;}
+
+  ul.items{list-style:none;margin:0 0 4px;padding:0;}
+  ul.items li{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:13.5px;line-height:1.5;border-top:1px solid var(--line);}
+  ul.items li:first-child{border-top:none;}
+  .box{flex:none;width:13px;height:13px;margin-top:3px;border:1.4px solid var(--ink);}
+  .box.done{background:var(--sage);border-color:var(--sage);}
+  .box.open{background:transparent;}
+
+  .callout{background:var(--sage-wash);border:1px solid color-mix(in srgb, var(--sage) 30%, transparent);padding:16px 20px;margin-top:6px;}
+  .callout.warn{background:var(--accent-wash);border-color:color-mix(in srgb, var(--accent) 35%, transparent);}
+  .callout h3{margin-top:0;}
+  .callout p{margin:0;font-size:13.5px;line-height:1.55;}
+
+  .next-step{background:var(--ink);color:var(--paper);padding:22px 26px;margin-top:28px;}
+  .next-step h3{color:var(--amber-wash,#F6ECD7);margin-top:0;}
+  .next-step p{margin:0;font-size:14.5px;line-height:1.55;}
+
+  footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3);display:flex;justify-content:space-between;}
+
+  @media (max-width:640px){ .sheet{padding:32px 22px;margin:0;box-shadow:none;} .masthead{flex-direction:column;align-items:flex-start;gap:6px;} .doc-label{text-align:left;} }
+
+  @media print{
+    body{background:#fff;}
+    .toolbar{display:none;}
+    .sheet{box-shadow:none;margin:0;padding:0.5in 0.6in;max-width:none;}
+    h2{break-after:avoid;}
+    .callout,.next-step{break-inside:avoid;}
+    @page{size:letter;margin:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar"><button class="print-btn" onclick="window.print()">Print or save as PDF</button></div>
+
+<main class="sheet">
+  <div class="masthead">
+    <span class="name">Pioneer Pathway</span>
+    <div class="doc-label">Status Report · 2026-08-24</div>
+  </div>
+
+  <h1>Full status report</h1>
+  <p class="dek">What's done, what's connected but not live yet, what's still open — nothing left out.</p>
+
+  <h2>Done — live on the real website right now</h2>
+  <h3>Fixes</h3>
+  <ul class="items">
+    <li><span class="box done"></span>Homepage/app file mix-up fixed (recurred once, fixed again)</li>
+    <li><span class="box done"></span>Homepage rebuilt from a broken state — real content, waitlist form, images restored</li>
+    <li><span class="box done"></span>Code-comment rule violations cleaned up across the whole app</li>
+    <li><span class="box done"></span>Old clutter files archived out of the main project folder</li>
+  </ul>
+  <h3>Features shipped (versions 57 → 64)</h3>
+  <ul class="items">
+    <li><span class="box done"></span>Behind-the-scenes activity logging (foundation for future reporting)</li>
+    <li><span class="box done"></span>Parent PIN editor + family activity card</li>
+    <li><span class="box done"></span>Calendar bug fix, richer activity logging</li>
+    <li><span class="box done"></span>"Sign In" link added to the homepage</li>
+    <li><span class="box done"></span>Fixed a bug that could wipe out onboarding progress</li>
+    <li><span class="box done"></span>Two private testing links that skip login (not public-facing)</li>
+  </ul>
+  <h3>Process fixes</h3>
+  <ul class="items">
+    <li><span class="box done"></span>Single running changelog — every change now gets an explanation + sign-off before it ships</li>
+    <li><span class="box done"></span>Root-caused the version-confusion problem; fixed by keeping all work in tracked sessions</li>
+    <li><span class="box done"></span>Defined three product areas and three work lanes to keep work organized</li>
+  </ul>
+
+  <h2>Done — but not connected to the real website yet</h2>
+  <p class="h2-note">Safe, separate work. Nothing here affects what visitors see today.</p>
+  <ul class="items">
+    <li><span class="box done"></span>Real, secure database tables built (students, courses, lessons, schedule, budget) — live app still runs on the old setup</li>
+    <li><span class="box done"></span>A fresh, properly-organized second version of the app started; login built and confirmed working</li>
+    <li><span class="box done"></span>Early iOS app mockup recovered and saved for later</li>
+  </ul>
+
+  <h2>Research completed</h2>
+  <ul class="items">
+    <li><span class="box done"></span>Full inventory of every available tool/service and what it's good for</li>
+    <li><span class="box done"></span>A real, checked gap list (see below)</li>
+    <li><span class="box done"></span>Sourced UI research on what makes an app feel professionally designed, applied to your five pillars</li>
+    <li><span class="box done"></span>A visual before/after mockup of the "Today" screen — shown, not built. Decision: not changing anything yet.</li>
+  </ul>
+
+  <h2>Still open — nothing done yet</h2>
+
+  <div class="callout warn">
+    <h3>Blocking marketing progress</h3>
+    <ul class="items">
+      <li><span class="box open"></span>Waitlist signups aren't reaching you — confirmed in the code, they only save in each visitor's own browser</li>
+      <li><span class="box open"></span>No email-sending service connected — MailerLite picked, connection started but not confirmed finished</li>
+      <li><span class="box open"></span>NC compliance checklist redesign — reminder posted Aug 21, still open, unaddressed</li>
+    </ul>
+  </div>
+
+  <div class="callout">
+    <h3>Not connected — lower priority</h3>
+    <ul class="items">
+      <li><span class="box open"></span>Website analytics</li>
+      <li><span class="box open"></span>Social media posting</li>
+      <li><span class="box open"></span>Uptime/error monitoring</li>
+      <li><span class="box open"></span>Text messaging (SMS)</li>
+      <li><span class="box open"></span>Domain/DNS access</li>
+    </ul>
+  </div>
+
+  <h3>Not started (roadmap items)</h3>
+  <ul class="items">
+    <li><span class="box open"></span>Onboarding Build 2 — newer onboarding screens, remove old wizard code</li>
+    <li><span class="box open"></span>Student Portal — the next major feature, not begun</li>
+    <li><span class="box open"></span>Rewrite's next step — a real working screen using the new database, beyond login</li>
+    <li><span class="box open"></span>UI redesign — mockup exists, no decision made</li>
+  </ul>
+
+  <h3>Minor, low priority</h3>
+  <ul class="items">
+    <li><span class="box open"></span>Blank "local development" AI key value (doesn't affect the real site)</li>
+    <li><span class="box open"></span>Optional leaked-password security setting — off, undiscussed</li>
+  </ul>
+
+  <div class="next-step">
+    <h3>Right now, the single most useful next step</h3>
+    <p>Finish connecting MailerLite — it directly unblocks two stalled items: the waitlist and the compliance checklist.</p>
+  </div>
+
+  <footer>
+    <span>Pioneer Pathway — internal status report</span>
+    <span>2026-08-24</span>
+  </footer>
+</main>
+
+</body>
+</html>
