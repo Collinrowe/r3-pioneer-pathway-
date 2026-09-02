@@ -46,6 +46,10 @@ Connected the new, properly-organized rewrite to the same account system the liv
 
 ## Shipped
 
+### 2026-09-02 — Waitlist signups now actually reach us
+The homepage's two "Join the Waitlist" boxes used to only save an email in that one visitor's own browser — it never reached us. They now send the email to MailerLite for real, into a new "Website Waitlist" list, using a private server-side connection (same pattern as the AI feature's key). If the connection ever fails, the visitor now sees a "please try again" message instead of a fake success. A second list ("NC Compliance Checklist") and two welcome-email automations were also created in MailerLite for later use — both automations are off until their email text is written and, for the checklist one, until the checklist itself is gated behind a signup.
+**Surface:** Website · **Lane:** Marketing
+
 ### 2026-08-19 — v64
 Added a special web link (`?demo=1`) that lets someone use the app without logging in, starting from a completely empty account — plus a related `?devmode=1` link and a hidden on-device setting that do the same thing without wiping data. Once triggered on a browser, it's remembered — that browser skips login from then on, link or no link.
 **Decision (2026-08-19):** private testing tool only, not advertised anywhere on the site — no public "try it" button. Collin has the direct links to use himself.

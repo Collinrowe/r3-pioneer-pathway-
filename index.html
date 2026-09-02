@@ -108,6 +108,7 @@
           </div>
         </div>
         <p id="ppHeroThanks" style="display:none;margin-top:34px;font-family:'Fraunces',serif;font-style:italic;font-size:1.2rem;color:#B24A26;max-width:44ch;">You’re on the path. We’ll write when the gate opens.</p>
+        <p id="ppHeroError" style="display:none;margin-top:16px;color:#B24A26;font-size:0.9rem;">Something went wrong — please try again in a moment.</p>
       </div>
 
       <!-- product mockup -->
@@ -327,6 +328,7 @@
         </form>
       </div>
       <p id="ppCtaThanks" style="display:none;margin:34px auto 0;font-family:'Fraunces',serif;font-style:italic;font-size:1.2rem;color:#B24A26;max-width:44ch;">You’re on the path. We’ll write when the gate opens.</p>
+      <p id="ppCtaError" style="display:none;margin:16px auto 0;color:#B24A26;font-size:0.9rem;">Something went wrong — please try again in a moment.</p>
     </div>
   </section>
 
@@ -344,29 +346,34 @@
 </div>
 
 <script>
-function ppSaveEmail(email) {
-  try {
-    var list = JSON.parse(window.localStorage.getItem('pp_waitlist') || '[]');
-    if (list.indexOf(email) === -1) list.push(email);
-    window.localStorage.setItem('pp_waitlist', JSON.stringify(list));
-  } catch (err) {}
-}
-
-function ppWireForm(formId, wrapId, thanksId) {
+function ppWireForm(formId, wrapId, thanksId, errorId, listKey) {
   var form = document.getElementById(formId);
   var wrap = document.getElementById(wrapId);
   var thanks = document.getElementById(thanksId);
+  var error = document.getElementById(errorId);
+  var button = form.querySelector('.pp-submit-btn');
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     var email = (form.email && form.email.value || '').trim();
     if (!email) return;
-    ppSaveEmail(email);
-    wrap.style.display = 'none';
-    thanks.style.display = 'block';
+    error.style.display = 'none';
+    button.disabled = true;
+    fetch('/.netlify/functions/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, list: listKey }),
+    }).then(function(res) {
+      if (!res.ok) throw new Error('request failed');
+      wrap.style.display = 'none';
+      thanks.style.display = 'block';
+    }).catch(function() {
+      button.disabled = false;
+      error.style.display = 'block';
+    });
   });
 }
-ppWireForm('ppHeroForm', 'ppHeroFormWrap', 'ppHeroThanks');
-ppWireForm('ppCtaForm', 'ppCtaFormWrap', 'ppCtaThanks');
+ppWireForm('ppHeroForm', 'ppHeroFormWrap', 'ppHeroThanks', 'ppHeroError', 'waitlist');
+ppWireForm('ppCtaForm', 'ppCtaFormWrap', 'ppCtaThanks', 'ppCtaError', 'waitlist');
 
 var ppMenuToggle = document.getElementById('ppMenuToggle');
 var ppMobileMenu = document.getElementById('ppMobileMenu');
