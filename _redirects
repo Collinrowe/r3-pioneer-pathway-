@@ -1,2 +1,3 @@
 /app    /app.html   200
 /app/*  /app.html   200
+/nc-checklist   /nc-homeschool-checklist.html   200

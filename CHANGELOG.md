@@ -13,12 +13,6 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 A complete, thorough status report covering everything done, connected-but-not-live, and still open — including the stalled MailerLite connection and the unfixed waitlist-capture problem. Built as a printable document matching the site's real brand, same pattern as the compliance checklist. Saved at `research/status-report-2026-08-24.html`.
 **Surface:** N/A (internal) · **Lane:** N/A (internal)
 
-### NC Homeschool Compliance Checklist (lead magnet)
-A one-page, printable checklist covering what North Carolina actually requires (filing deadline, required subjects, testing/records) plus what it doesn't (no portfolio, no curriculum approval, no teaching credential). Content pulled directly from the app's own compliance data. First draft saved at `assets/nc-homeschool-compliance-checklist.html` — not linked from the live site yet.
-**Collin's review (2026-08-19):** "not great but it's a start" — needs another design pass before it ships. Scheduled to revisit in a few days.
-**Decision (2026-08-19):** will live behind an email signup, not a direct public link — a real lead-magnet gate, not a freebie download. Signup mechanism not yet built.
-**Surface:** Website · **Lane:** Marketing
-
 ---
 
 ## Reference material (not shipped features — background research to inform future work)
@@ -45,6 +39,10 @@ Connected the new, properly-organized rewrite to the same account system the liv
 ---
 
 ## Shipped
+
+### 2026-09-02 — NC compliance checklist: redesigned + real email-gated signup page
+Redesigned the NC Homeschool Compliance Checklist to match the site's brand more distinctively (`assets/nc-homeschool-compliance-checklist.html` — same address as the old draft, content unchanged, design refreshed per Collin's 2026-08-19 request). Built a new standalone signup page (`nc-homeschool-checklist.html`, live at `r3pioneerpathway.com/nc-checklist`) that asks for an email before delivering the checklist — the real lead-magnet gate decided on 2026-08-19. Uses the same MailerLite connection as the waitlist form; submissions go into the "NC Compliance Checklist" list. Not yet linked from anywhere on the live site — reachable only by direct address for now, by design, until Collin decides where to promote it.
+**Surface:** Website · **Lane:** Marketing
 
 ### 2026-09-02 — Waitlist signups now actually reach us
 The homepage's two "Join the Waitlist" boxes used to only save an email in that one visitor's own browser — it never reached us. They now send the email to MailerLite for real, into a new "Website Waitlist" list, using a private server-side connection (same pattern as the AI feature's key). If the connection ever fails, the visitor now sees a "please try again" message instead of a fake success. A second list ("NC Compliance Checklist") and two welcome-email automations were also created in MailerLite for later use — both automations are off until their email text is written and, for the checklist one, until the checklist itself is gated behind a signup.
