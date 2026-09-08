@@ -10,8 +10,8 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 ## Draft / in review
 
 ### 2026-09-08 — Fixed student PINs that could never work, made them visible to parents
-Found while testing the change below: the student PIN field let a parent save a PIN shorter than 4 digits (e.g. typing 2-3 digits then saving), but the student login screen always waits for exactly 4 digits before checking it — so a short PIN could never match, locking that student out permanently with no clue why. Fixed by requiring a PIN be either blank (no PIN) or exactly 4 digits before it can be saved, with a plain "Needs all 4 digits" message if not.
-Also added: a student's current PIN (or "Not set") now shows directly on their profile page in the parent view, with a one-click "Change" link — no more digging through the edit form to find or reset it.
+The student PIN field let a parent save a PIN shorter than 4 digits (e.g. typing 2-3 digits then saving), but the student login screen always waits for exactly 4 digits before checking it — so a short PIN could never match, locking that student out permanently with no clue why. Fixed by requiring a PIN be either blank (no PIN) or exactly 4 digits before it can be saved, with a plain "Needs all 4 digits" message if not.
+Also learned there are two different places a parent can open a child's profile — first added the visible PIN + reset there to the wrong one, caught it when Collin tested and didn't see it. It's now on both: the richer tabbed profile view (Profile/Learning/Tests/About — the one actually used from the Family screen) and the simpler one, so wherever a parent looks, it's there.
 **Surface:** Parent/Teacher app · **Lane:** Technical (bug fix) + UI/UX
 
 ### 2026-09-08 — Student work now goes through a parent before it counts as done
