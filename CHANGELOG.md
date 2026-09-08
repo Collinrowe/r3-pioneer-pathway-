@@ -15,6 +15,11 @@ A complete, thorough status report covering everything done, connected-but-not-l
 
 ---
 
+### 2026-09-08 — MailerLite email automations written, active, and tested
+Both welcome-email automations ("Waitlist Welcome" and "Compliance Checklist Delivery") now have real, finished email text (written 2026-09-02, pasted into MailerLite's editor by Collin) and are switched on. Tested by sending real copies to Collin's inbox — both arrived correctly with the right subject and content. This closes out the MailerLite build started 2026-08-25.
+**Decision (2026-09-08):** the `/nc-checklist` signup page stays unlinked from the live site for now — reachable only by direct address, private/soft-launch by choice, not an oversight.
+**Surface:** Website · **Lane:** Marketing
+
 ## Reference material (not shipped features — background research to inform future work)
 
 ### 2026-08-20 — Tools/connectors inventory + real gap list
