@@ -9,6 +9,12 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-08 — Student work now goes through a parent before it counts as done
+Found that a working first version of the Student Portal already existed in the app (PIN login, subject dashboard, per-lesson content) but wasn't documented anywhere, and had one real problem: a student's "Mark lesson complete" button marked it done immediately, with no parent ever seeing or approving it. Also found the parent's approval screen ("Review Queue") already existed too, fully built, just never had anything to review.
+Fixed by changing the student's button to "Submit for review" instead — it now goes into the existing Review Queue, where a parent can Approve (counts as done, same as anywhere else in the app) or Send back (student sees it again to redo). Added a small number badge on the Review Queue button so a parent can see at a glance if anything's waiting. Also closed a related gap: a unit's "ready for test-out" status previously could only ever be triggered by the direct student action being removed here — it's now tied to parent approval instead, matching everywhere else in the app that a lesson gets marked done.
+**Not yet done:** `CLAUDE.md`'s roadmap still lists the Student Portal as "not begun" — worth updating to reflect what's actually there.
+**Surface:** Parent/Teacher app + Student app · **Lane:** Technical (data model / approval flow)
+
 ### 2026-08-24 — Full status report (printable)
 A complete, thorough status report covering everything done, connected-but-not-live, and still open — including the stalled MailerLite connection and the unfixed waitlist-capture problem. Built as a printable document matching the site's real brand, same pattern as the compliance checklist. Saved at `research/status-report-2026-08-24.html`.
 **Surface:** N/A (internal) · **Lane:** N/A (internal)
