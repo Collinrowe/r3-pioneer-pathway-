@@ -9,6 +9,11 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-08 — Fixed student PINs that could never work, made them visible to parents
+Found while testing the change below: the student PIN field let a parent save a PIN shorter than 4 digits (e.g. typing 2-3 digits then saving), but the student login screen always waits for exactly 4 digits before checking it — so a short PIN could never match, locking that student out permanently with no clue why. Fixed by requiring a PIN be either blank (no PIN) or exactly 4 digits before it can be saved, with a plain "Needs all 4 digits" message if not.
+Also added: a student's current PIN (or "Not set") now shows directly on their profile page in the parent view, with a one-click "Change" link — no more digging through the edit form to find or reset it.
+**Surface:** Parent/Teacher app · **Lane:** Technical (bug fix) + UI/UX
+
 ### 2026-09-08 — Student work now goes through a parent before it counts as done
 Found that a working first version of the Student Portal already existed in the app (PIN login, subject dashboard, per-lesson content) but wasn't documented anywhere, and had one real problem: a student's "Mark lesson complete" button marked it done immediately, with no parent ever seeing or approving it. Also found the parent's approval screen ("Review Queue") already existed too, fully built, just never had anything to review.
 Fixed by changing the student's button to "Submit for review" instead — it now goes into the existing Review Queue, where a parent can Approve (counts as done, same as anywhere else in the app) or Send back (student sees it again to redo). Added a small number badge on the Review Queue button so a parent can see at a glance if anything's waiting. Also closed a related gap: a unit's "ready for test-out" status previously could only ever be triggered by the direct student action being removed here — it's now tied to parent approval instead, matching everywhere else in the app that a lesson gets marked done.
