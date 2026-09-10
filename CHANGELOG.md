@@ -9,6 +9,11 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-10 — Missed the quiz? Fresh questions, plus a hint on what to review
+Phase 5 of the daily-learning rework — the last piece of the actual test loop. If a student doesn't pass today's lesson quiz, they now get a short, AI-written note explaining specifically what they got wrong and how to think about it differently, right there on the lesson screen, before trying again with a fresh set of questions.
+**One thing I built in without being explicitly asked, flagging it so you know it's there:** after 3 misses in a row on the same lesson, it stops generating new attempts automatically and instead shows "let's come back to this together — your teacher has been notified" — so a genuinely stuck kid never ends up in an endless retry loop with nobody aware. Right now that "notified" part is really just something you'd notice yourself (the daily recap in the next piece will surface it properly) — happy to adjust the number of tries or build a more direct alert if you'd rather.
+**Surface:** Student app · **Lane:** Technical (data model / approval flow)
+
 ### 2026-09-10 — Yesterday's recap check, before today's new lesson
 Phase 4 of the daily-learning rework. Before a student starts a new lesson (as long as there was a lesson before it), they now get a couple of quick recap questions on the previous one first — no waiting on you either way, it just happens automatically. Pass it, and they move straight into today's lesson like normal. Miss it, and today's lesson quietly gets a short review of that earlier topic woven in before the new material, so nothing gets glossed over.
 Also cleaned up while doing this: the app's old "test the whole unit at once, at the end" system is now fully retired from the student side — everything runs through the new day-by-day cycle instead, avoiding a real bug this change would've otherwise caused (a student could have ended up facing both the old whole-unit test *and* the new per-lesson one back to back).
