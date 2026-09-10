@@ -9,6 +9,12 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-10 — Yesterday's recap check, before today's new lesson
+Phase 4 of the daily-learning rework. Before a student starts a new lesson (as long as there was a lesson before it), they now get a couple of quick recap questions on the previous one first — no waiting on you either way, it just happens automatically. Pass it, and they move straight into today's lesson like normal. Miss it, and today's lesson quietly gets a short review of that earlier topic woven in before the new material, so nothing gets glossed over.
+Also cleaned up while doing this: the app's old "test the whole unit at once, at the end" system is now fully retired from the student side — everything runs through the new day-by-day cycle instead, avoiding a real bug this change would've otherwise caused (a student could have ended up facing both the old whole-unit test *and* the new per-lesson one back to back).
+**Not yet built:** if a test-out (today's lesson quiz, not the recap) isn't passed, it just lets them retake with new questions for now — a short note explaining what they got wrong is the next phase.
+**Surface:** Student app + Parent/Teacher app · **Lane:** Technical (data model / approval flow)
+
 ### 2026-09-10 — Worksheets for students, and a real quiz gates lesson completion
 Phase 3 of the daily-learning rework. Two changes to what a student sees after reading today's lesson:
 1. **Worksheets, finally reaching students.** The real, AI-written practice-problem worksheets — already fully built for your side of the app — now show up on the student's own screen too, with a "Get today's worksheet" button and the same print option you already have.
