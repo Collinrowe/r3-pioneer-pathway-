@@ -9,6 +9,12 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-10 — Today's lesson stops changing on reload, and it's actually personalized now
+Phase 2 of the daily-learning rework. Two fixes:
+1. **Real bug, now fixed:** a student's lesson content used to be rewritten by AI every time the page reloaded — meaning a student could see genuinely different wording for "today's lesson" mid-session, and none of it was ever saved. It now gets written once and saved permanently to that lesson, same safe way other lesson data already gets saved.
+2. **Personalization, actually used now:** the AI writing lesson content, lesson plans, and worksheets used to only know a child's name and grade — every other profile detail (learning style, personality, interests, challenges) was collected but ignored. All three now use it. This reuses the exact same "student profile" writeup already used successfully for building a child's course outline — just extended to the other three places that write content for a child.
+**Surface:** Student app · **Lane:** Technical (bug fix + AI personalization)
+
 ### 2026-09-10 — "Why your plan looks this way" screen after onboarding
 Phase 1 of the bigger daily-learning rework (test-in/learn/test-out, planned in full but building/shipping one piece at a time). Right after a family finishes onboarding, before they land on the dashboard for the first time, they now see a short AI-written note explaining why each child's plan is shaped the way it is — grade, pace, and (if set) learning style and interests. Shown once per family, then never again unless onboarding is redone. Nothing else about onboarding changed.
 **Surface:** Parent/Teacher app · **Lane:** UI/UX
