@@ -9,6 +9,10 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-10 — "Why your plan looks this way" screen after onboarding
+Phase 1 of the bigger daily-learning rework (test-in/learn/test-out, planned in full but building/shipping one piece at a time). Right after a family finishes onboarding, before they land on the dashboard for the first time, they now see a short AI-written note explaining why each child's plan is shaped the way it is — grade, pace, and (if set) learning style and interests. Shown once per family, then never again unless onboarding is redone. Nothing else about onboarding changed.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX
+
 ### 2026-09-08 — Fixed student PINs that could never work, made them visible to parents
 The student PIN field let a parent save a PIN shorter than 4 digits (e.g. typing 2-3 digits then saving), but the student login screen always waits for exactly 4 digits before checking it — so a short PIN could never match, locking that student out permanently with no clue why. Fixed by requiring a PIN be either blank (no PIN) or exactly 4 digits before it can be saved, with a plain "Needs all 4 digits" message if not.
 Also learned there are two different places a parent can open a child's profile — first added the visible PIN + reset there to the wrong one, caught it when Collin tested and didn't see it. It's now on both: the richer tabbed profile view (Profile/Learning/Tests/About — the one actually used from the Family screen) and the simpler one, so wherever a parent looks, it's there.
