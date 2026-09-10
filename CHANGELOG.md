@@ -9,6 +9,13 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-10 — "Today so far" recap on the Family screen, plus a stuck-badge fix
+Phase 6, the last piece of the daily-learning rework. Two things:
+1. **A new card on the Family screen** showing what actually happened today, per child, as it happens — lessons approved, quizzes passed (and waiting on you), recap checks missed, retries. Built entirely from activity the app was already quietly recording — nothing new to track, just finally shown.
+2. **A real stuck-badge bug, found and fixed while finishing this:** once a unit's lessons were all approved, its status badge (the small "Passed"/"Awaiting Student Test" label you see in the calendar and lesson views) used to get permanently stuck showing "Awaiting Student Test," because the old once-per-unit test that used to clear it doesn't run anymore under the new day-by-day system. It now correctly flips straight to "Passed" instead. Doesn't touch real progress or grading — purely a label that was lying to you.
+**This finishes the whole daily-learning rework** (test-in, personalized lessons, worksheets, test-out, retry-with-help, parent approval, and now visibility) — six phases, all currently sitting on a private preview link, none of it live yet. Whenever you're ready, the next step is testing it for real and giving the go-ahead to ship it to the actual site.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX + Technical (bug fix)
+
 ### 2026-09-10 — Missed the quiz? Fresh questions, plus a hint on what to review
 Phase 5 of the daily-learning rework — the last piece of the actual test loop. If a student doesn't pass today's lesson quiz, they now get a short, AI-written note explaining specifically what they got wrong and how to think about it differently, right there on the lesson screen, before trying again with a fresh set of questions.
 **One thing I built in without being explicitly asked, flagging it so you know it's there:** after 3 misses in a row on the same lesson, it stops generating new attempts automatically and instead shows "let's come back to this together — your teacher has been notified" — so a genuinely stuck kid never ends up in an endless retry loop with nobody aware. Right now that "notified" part is really just something you'd notice yourself (the daily recap in the next piece will surface it properly) — happy to adjust the number of tries or build a more direct alert if you'd rather.
