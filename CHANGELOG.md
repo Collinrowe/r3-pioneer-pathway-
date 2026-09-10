@@ -9,6 +9,13 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-10 — Worksheets for students, and a real quiz gates lesson completion
+Phase 3 of the daily-learning rework. Two changes to what a student sees after reading today's lesson:
+1. **Worksheets, finally reaching students.** The real, AI-written practice-problem worksheets — already fully built for your side of the app — now show up on the student's own screen too, with a "Get today's worksheet" button and the same print option you already have.
+2. **The manual "Submit for review" button is gone.** In its place: a short quiz on today's lesson. Passing it is what submits the lesson to you for approval — automatically, no separate button anymore. This is the real start of "test-out."
+**Not yet built:** failing the quiz just lets them retake it with fresh questions (already worked this way) — the "here's what you got wrong" helper notes come in a later phase. The recap/check on *yesterday's* lesson (test-in) also isn't built yet — that's next.
+**Surface:** Student app + Parent/Teacher app · **Lane:** Technical (data model / approval flow) + UI/UX
+
 ### 2026-09-10 — Today's lesson stops changing on reload, and it's actually personalized now
 Phase 2 of the daily-learning rework. Two fixes:
 1. **Real bug, now fixed:** a student's lesson content used to be rewritten by AI every time the page reloaded — meaning a student could see genuinely different wording for "today's lesson" mid-session, and none of it was ever saved. It now gets written once and saved permanently to that lesson, same safe way other lesson data already gets saved.
