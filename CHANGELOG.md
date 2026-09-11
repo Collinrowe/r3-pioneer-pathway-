@@ -9,6 +9,12 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-11 — The app now remembers recurring mistakes, not just one-off ones
+When a student fails a lesson quiz, the app already writes a short explanation of what they got wrong — but until now, it forgot that instantly. This gives it real memory: the same confusion showing up again, in a different lesson weeks later, now gets recognized as a genuine pattern instead of treated as brand new every time.
+How it shows up: nothing happens the first time (could just be an off day). The second time, future lessons for that subject quietly start reinforcing it — no separate remedial section, just naturally worked in. The third time, it becomes a real, named pattern you can see plainly on that child's profile (the "Learning" tab), with how many times it's shown up and when it was first noticed.
+**Not yet built, on purpose:** nothing currently marks a pattern "resolved" once it's actually been overcome — deciding what should count as genuinely fixed (versus one lucky right answer) is a real design question on its own, better shipped separately once the tracking itself has been used for a while. Also only today's actual lesson quiz feeds this right now, not the quick daily recap checks.
+**Surface:** Student app + Parent/Teacher app · **Lane:** Technical (AI personalization)
+
 ### 2026-09-10 — "Today so far" recap on the Family screen, plus a stuck-badge fix
 Phase 6, the last piece of the daily-learning rework. Two things:
 1. **A new card on the Family screen** showing what actually happened today, per child, as it happens — lessons approved, quizzes passed (and waiting on you), recap checks missed, retries. Built entirely from activity the app was already quietly recording — nothing new to track, just finally shown.
