@@ -101,7 +101,16 @@ plan, three phases, shipping as separate pushes:
   never applies anything without the parent tapping Apply.
 Full plan: `/Users/collinrowe/.claude/plans/elegant-wibbling-lemur.md`.
 
-**Phase A shipped 2026-09-15:** Planner board removed; session-length
-(time budget) picked at onboarding now actually changes how much gets
-scheduled per day. Only affects scheduling going forward, not existing
-test children. Phases B (list view) and C (AI chat editor) still to come.
+**All three phases shipped 2026-09-15:**
+- Phase A: Planner board removed; session-length (time budget) picked at
+  onboarding now actually changes how much gets scheduled per day. Only
+  affects scheduling going forward, not existing test children.
+- Phase B: Calendar/List toggle on the Calendar screen — List shows every
+  subject's units and lessons in order, like a syllabus.
+- Phase C: "✨ Ask AI" button opens a chat box to add/remove units or
+  lessons in plain language. Always shows the exact proposed change first
+  (calling out anything already-completed) with Apply/Cancel — nothing
+  happens until you tap Apply. Applying never rebuilds the whole calendar,
+  only touches the specific lessons involved, so nothing already scheduled
+  or completed gets disturbed by an unrelated edit.
+This is the full calendar rework, ready to test end to end.

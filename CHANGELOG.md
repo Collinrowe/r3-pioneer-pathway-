@@ -9,6 +9,14 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-15 — Ask the AI to add or remove things from the plan, in plain language
+Phase C — the last piece of the calendar rework. A new "✨ Ask AI" button next to the Calendar/List toggle opens a small chat box where you can type something like "remove the poetry unit" or "add a unit on the solar system" for the child you're viewing.
+It never just does it. The AI always comes back with one specific, plain-language proposal first — e.g. *"Remove Unit 3: Poetry"* — with Apply and Cancel buttons. If what you're removing has already-completed or graded lessons in it, that's called out explicitly right there before you confirm, not buried. Nothing changes until you tap Apply.
+Under the hood, applying a change never rebuilds the whole calendar from scratch — it only touches the specific lessons involved (new lessons get added onto the end of the existing schedule; removed ones get pulled out by name), so nothing you've already dragged to a different date, or already completed, ever gets reshuffled by an edit somewhere else in the plan.
+**Not yet built, on purpose:** reordering units/lessons within the same spot (only add/remove/edit today), and the AI can only propose one change at a time per message — flagging both as reasonable next steps, not gaps I missed.
+**Surface:** Parent/Teacher app · **Lane:** Technical (AI content generation) + UI/UX
+This closes out the calendar rework (Phases A, B, C) — one real auto-planned schedule, a full-year list view, and now a way to adjust it by asking instead of editing by hand.
+
 ### 2026-09-15 — A plain "what this year covers" list, right next to the calendar
 Phase B of the calendar rework. The Calendar screen now has a "Calendar / List" toggle at the top. List view shows, per subject, every unit and every lesson in the order it'll actually be taught — the same thing driving the calendar underneath, just laid out to read top-to-bottom like a syllabus, so it's easy to hand to anyone asking "what will they cover this year" without clicking through a whole month at a time.
 **Surface:** Parent/Teacher app · **Lane:** UI/UX
