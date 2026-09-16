@@ -9,6 +9,10 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-15 — Worksheets can now be filled in right on screen, not just printed
+First item off Collin's testing notes. Worksheets used to be print-only — the "answer lines" were just blank space on a printout, nothing captured digitally. Now, alongside the existing print option, a student can open a worksheet and type their answers directly in the app. The moment they submit, they see which ones were right or wrong, checked against the same answer key the worksheet already carries — a plain text comparison, not an AI judgment call. That's a nudge for the student, not the official grade: you still record the real grade the same way you always have, and it'll be pre-filled with what the app already checked so you're not retyping it.
+**Surface:** Student app · **Lane:** UI/UX + Technical (data model)
+
 ### 2026-09-11 — The app now remembers recurring mistakes, not just one-off ones
 When a student fails a lesson quiz, the app already writes a short explanation of what they got wrong — but until now, it forgot that instantly. This gives it real memory: the same confusion showing up again, in a different lesson weeks later, now gets recognized as a genuine pattern instead of treated as brand new every time.
 How it shows up: nothing happens the first time (could just be an off day). The second time, future lessons for that subject quietly start reinforcing it — no separate remedial section, just naturally worked in. The third time, it becomes a real, named pattern you can see plainly on that child's profile (the "Learning" tab), with how many times it's shown up and when it was first noticed.
