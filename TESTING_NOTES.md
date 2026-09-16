@@ -38,3 +38,31 @@ of sync between what a parent sees and what a student sees). Building an
 actually separate student app that "talks to" the parent app is a real
 project of its own — needs a real conversation with Collin before any work
 starts on it, not something to build silently mid-testing-session.
+
+---
+
+## 4. 🆕 See the full recap inside the child's profile, once the AI plan is built
+Collin's note: "once the AI plan in built for the student there needs to be
+a way to see the full recap in the profile."
+
+Right now there's a "today so far" recap card (built in Phase 6), but it
+only lives on the Family screen and it's a checklist of events — lesson
+approved, quiz passed, recap check missed, etc. — not the actual lesson
+content the AI wrote for that child that day. Nothing recap-related
+currently shows up inside the child's own Profile at all.
+
+**Collin clarified:** this isn't about a daily lesson recap at all — it's
+about the "why we built your plan this way" screen shown once at the end
+of onboarding. That content was only ever generated in memory for that one
+screen and then thrown away — nothing saved it, so there was genuinely no
+way to find it again afterward.
+
+**Fixed:** that explanation now gets saved onto the child's record the
+moment onboarding finishes, and shows up as a new "Why this plan" section
+on that child's Profile (About tab).
+**Heads up:** this only applies to students who go through onboarding
+*after* this update — it can't retroactively generate this for a child
+who was already set up before today, since the app never kept the
+information needed to rebuild it. If you want it added for an
+already-existing test child, say so and I'll figure out a way to backfill
+it.

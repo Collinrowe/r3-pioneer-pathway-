@@ -9,6 +9,12 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-15 — "Why this plan" now saved to the child's profile, not lost after onboarding
+Second item off Collin's testing notes. At the end of onboarding, there's a screen explaining why the curriculum was built the way it was — traced back to what you told the app about that student. It turned out that screen's content was never actually saved anywhere; it only existed in memory for that one moment, so there was no way to see it again afterward, which is exactly what Collin ran into.
+Now that explanation gets saved onto the child's record the moment onboarding finishes, and shows up as a new "Why this plan" section on that child's Profile (About tab).
+**Only applies going forward:** a student who was already set up before this change won't have this saved, since the information needed to rebuild it wasn't kept at the time. Flagging in case Collin wants an existing test child backfilled by hand.
+**Surface:** Parent/Teacher app · **Lane:** Technical (data model)
+
 ### 2026-09-15 — Worksheets can now be filled in right on screen, not just printed
 First item off Collin's testing notes. Worksheets used to be print-only — the "answer lines" were just blank space on a printout, nothing captured digitally. Now, alongside the existing print option, a student can open a worksheet and type their answers directly in the app. The moment they submit, they see which ones were right or wrong, checked against the same answer key the worksheet already carries — a plain text comparison, not an AI judgment call. That's a nudge for the student, not the official grade: you still record the real grade the same way you always have, and it'll be pre-filled with what the app already checked so you're not retyping it.
 **Surface:** Student app · **Lane:** UI/UX + Technical (data model)
