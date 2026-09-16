@@ -9,6 +9,11 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-15 — A plain "what this year covers" list, right next to the calendar
+Phase B of the calendar rework. The Calendar screen now has a "Calendar / List" toggle at the top. List view shows, per subject, every unit and every lesson in the order it'll actually be taught — the same thing driving the calendar underneath, just laid out to read top-to-bottom like a syllabus, so it's easy to hand to anyone asking "what will they cover this year" without clicking through a whole month at a time.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX
+**Next up:** Phase C, the AI chat panel to add or remove units/lessons in plain language.
+
 ### 2026-09-15 — One real schedule instead of two, and pace now reflects what you actually picked
 Phase A of the calendar rework (third item off Collin's testing notes — "the planner tab is too confusing"). Turned out the app had two separate "plan my schedule" screens doing overlapping jobs: the weekly Planner board, where every lesson had to be dragged into a day by hand, and the Calendar, which already auto-builds the whole year on its own the moment a family first opens it — pulling every unit and lesson in the right learning order, spread across the school days chosen at onboarding. The Planner board is gone now; Calendar is the one real plan.
 While in there: onboarding already asks "How much time per subject?" (quick 15–20 min sessions, standard 30–45 min, deep 60+ min, or varies) and saves the answer — but nothing ever used it. Now it does: a family that picked quick sessions gets fewer subjects stacked onto the same day, spread out more; a family that picked deep sessions gets more covered per sitting. Which subjects meet how many times a week is unchanged — nothing in onboarding lets a parent pick that yet, so that's a separate future decision, not folded in here.
