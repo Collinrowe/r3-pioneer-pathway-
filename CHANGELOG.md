@@ -9,6 +9,13 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-15 — One real schedule instead of two, and pace now reflects what you actually picked
+Phase A of the calendar rework (third item off Collin's testing notes — "the planner tab is too confusing"). Turned out the app had two separate "plan my schedule" screens doing overlapping jobs: the weekly Planner board, where every lesson had to be dragged into a day by hand, and the Calendar, which already auto-builds the whole year on its own the moment a family first opens it — pulling every unit and lesson in the right learning order, spread across the school days chosen at onboarding. The Planner board is gone now; Calendar is the one real plan.
+While in there: onboarding already asks "How much time per subject?" (quick 15–20 min sessions, standard 30–45 min, deep 60+ min, or varies) and saves the answer — but nothing ever used it. Now it does: a family that picked quick sessions gets fewer subjects stacked onto the same day, spread out more; a family that picked deep sessions gets more covered per sitting. Which subjects meet how many times a week is unchanged — nothing in onboarding lets a parent pick that yet, so that's a separate future decision, not folded in here.
+**Only affects the schedule going forward** — an existing test child's calendar won't retroactively re-pace itself; this applies the next time new lessons get added to the schedule.
+**Next up (already planned, not yet built):** a plain-language "what this year covers" list next to the calendar, and a chat-based way to ask the AI to add or remove units/lessons directly.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX + Technical (scheduling)
+
 ### 2026-09-15 — "Why this plan" now saved to the child's profile, not lost after onboarding
 Second item off Collin's testing notes. At the end of onboarding, there's a screen explaining why the curriculum was built the way it was — traced back to what you told the app about that student. It turned out that screen's content was never actually saved anywhere; it only existed in memory for that one moment, so there was no way to see it again afterward, which is exactly what Collin ran into.
 Now that explanation gets saved onto the child's record the moment onboarding finishes, and shows up as a new "Why this plan" section on that child's Profile (About tab).

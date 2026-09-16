@@ -66,3 +66,42 @@ who was already set up before today, since the app never kept the
 information needed to rebuild it. If you want it added for an
 already-existing test child, say so and I'll figure out a way to backfill
 it.
+
+---
+
+## 5. 🔧 Planner tab is confusing — auto-plan the whole year onto the calendar
+Collin's note: "the planner tab is too confusing. this is what we want to
+autoplan for the teacher. each block should be set in the calendar in the
+order of learning geared to the time and intervals originally picked by
+the parent/teacher. ie plan out the entire year based on what has to be
+accomplished and learned to pass that grade level."
+
+Reading this as two connected asks: (1) the current Planner screen is hard
+to use as-is, and (2) build real auto-scheduling — take the full year's
+worth of units/lessons already generated for that child and lay them onto
+actual calendar days in the right learning order, based on the school
+days/pace the parent picked, so the whole year is mapped out in advance
+instead of just figuring out "what's next" one day at a time.
+
+This is bigger than the last two items — a real look at the current
+Planner screen first, then likely a proper plan Collin signs off on before
+building, not a quick patch.
+
+**Plan approved 2026-09-15.** Turned out the Calendar screen already
+auto-builds a full-year schedule on its own (`buildYearSchedule`) — the
+Planner board was a second, manual system duplicating that job. Approved
+plan, three phases, shipping as separate pushes:
+- **Phase A** (in progress): remove Planner for good; make session length
+  (already picked at onboarding, currently unused) change how much gets
+  scheduled per day.
+- **Phase B**: a plain "what this year covers" list view next to the
+  calendar, like a syllabus.
+- **Phase C**: an AI chat panel to add/remove units or lessons by asking
+  for it in plain language — always proposes the exact change first,
+  never applies anything without the parent tapping Apply.
+Full plan: `/Users/collinrowe/.claude/plans/elegant-wibbling-lemur.md`.
+
+**Phase A shipped 2026-09-15:** Planner board removed; session-length
+(time budget) picked at onboarding now actually changes how much gets
+scheduled per day. Only affects scheduling going forward, not existing
+test children. Phases B (list view) and C (AI chat editor) still to come.
