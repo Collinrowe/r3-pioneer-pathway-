@@ -187,3 +187,33 @@ server before and after, not just by reading the code — also caught and
 fixed a smaller overlap issue the split introduced (STEM half sometimes
 grabbing reading/writing topics, since Common Core brands itself as "ELA
 and Math").
+
+---
+
+## 11. 💭 Quarterly testing system + transcript grades
+Collin's note: "building out a testing system that gives the student a
+transcripted grade. GPA will not be needed until 9th grade curriculum but
+lets build a testing system for each grade that tests per quarter that
+displays the child understanding and what passes and fails in order to
+make sure the failures are brought up to speed."
+Big feature — GPA itself deferred to 9th grade+, but wants the underlying
+per-quarter testing/transcript foundation built now for every grade.
+Investigating existing grade book / mastery / compliance systems before
+proposing a plan.
+
+**Decision:** a real quarterly test per subject (Collin's call), not just
+a summary of daily quiz results. Also asked to add: study guides for each
+quarterly test. Full plan written and approved — see
+`/Users/collinrowe/.claude/plans/elegant-wibbling-lemur.md`. Building in
+5 pieces: quarter boundaries + data model, the checkpoint quiz itself,
+failures feeding the existing misconception system, study guides, then
+the Grade Book display. GPA stays out of this entirely — already exists
+for grades 9-12 elsewhere (College Prep → Transcript).
+
+---
+
+## 12. ✅ Calendar should always open on the current month
+Collin's note: "have the calendar view in the app always set to the
+current month." Right now it opens on whatever month `calStartDate` (the
+school year's start date) falls in, not today's month.
+**Fixed 2026-09-16:** now always opens on the current month.

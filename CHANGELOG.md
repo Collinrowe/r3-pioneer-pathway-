@@ -9,6 +9,15 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-16 — Calendar always opens on the current month
+Small fix. It used to open on whichever month the school year's start date fell in, so if you set up school in August, it'd keep landing you back in August every time you opened Calendar, no matter what month it actually was. It now always opens on today's month.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX
+
+### 2026-09-16 — Foundation for quarterly checkpoint tests (part 1 of 5)
+First piece of the quarterly testing system Collin asked for: a real per-quarter checkpoint test per subject, showing what's understood and what isn't, with failures feeding back into remediation, plus study guides — building for every grade (GPA itself already exists separately for grades 9-12 in College Prep → Transcript, untouched here).
+This piece is just the foundation, nothing visible yet: school quarters are now defined as four ~9-week blocks starting from the family's school year start date, and there's a new place to store quarterly results once they exist (saved/loaded the same reliable way grades already are). Next: the checkpoint test itself.
+**Surface:** Parent/Teacher app + Student app · **Lane:** Technical (data model)
+
 ### 2026-09-16 — Fixed: School Guides never actually returning a guide
 Real bug — the "School Guides" tool (Lessons tab: pick a grade and a curriculum framework, get a full guide of what's covered) was asking the AI for too much in one shot — 6-8 subjects with 6-10 detailed topics each, all in a single request. Confirmed directly against the live server: that request was reliably timing out before anything came back, which is why it looked like it just didn't do anything.
 Fixed by splitting it into two smaller requests that run at the same time — one for the core STEM subjects, one for everything else — then combining them into the same guide you'd have gotten before. Tested the actual failure against the live server first to confirm the real cause, then tested the fix the same way (not just checking the code looks right) before shipping, including catching and closing a smaller issue the fix surfaced along the way (the STEM half occasionally pulled in reading/writing topics that belonged in the other half, since Common Core brands itself as "ELA and Math" — tightened the wording so each half stays in its lane).
