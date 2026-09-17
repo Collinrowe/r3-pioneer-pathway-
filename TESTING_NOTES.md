@@ -144,3 +144,15 @@ every lesson now ends with a "📺 Need more help?" box: one link that
 searches YouTube for that exact lesson's topic, plus up to two links
 scoped to the existing vetted channels (Khan Academy, Crash Course, etc.)
 when one covers that subject.
+
+---
+
+## 8. ✅ Lessons going blank right after the recap check
+Collin's note: "lessons arent loading   the test in works and then the
+screen is blank." Real bug in the video-links feature above — the vetted
+channel list it reused was only actually defined inside the Resources
+screen's code, not reachable from the lesson screen, so trying to use it
+crashed the whole page silently the moment a lesson tried to load.
+**Fixed 2026-09-16:** moved the channel list somewhere the rest of the
+app can reach. Reproduced the exact crash in an isolated test and
+confirmed the fix works before shipping.

@@ -9,6 +9,11 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-16 — Fixed: lessons going blank after passing the recap check
+Real bug, caught right after shipping the video-links feature above — Collin reported the lesson screen going blank right after passing the "quick check" on the previous lesson. Root cause: the video-links box reused the app's existing list of vetted YouTube channels, but that list turned out to only be defined inside the Resources screen's own code, not available anywhere else — so the moment a student's lesson tried to use it, the whole screen crashed silently instead of showing anything.
+Fixed by moving that channel list to where the rest of the app can actually reach it. Reproduced the exact crash and confirmed the fix in an isolated test before shipping, rather than guessing.
+**Surface:** Student app · **Lane:** Technical (bug fix)
+
 ### 2026-09-16 — "Need more help?" video search links on every lesson
 Seventh item off Collin's testing notes. Each lesson a student reads now ends with a small "📺 Need more help?" box with one-click links: a YouTube search built from that exact lesson's topic, plus (when one of the app's already-vetted educational channels, like Khan Academy or Crash Course, covers that subject) a search scoped to that channel specifically.
 Went with real, always-working search links rather than the AI trying to name one specific "best" video — a specific video can get deleted, go private, or just be wrong, and a broken link handed to a kid looking for help is worse than no link. A live search link can never 404. Collin confirmed this tradeoff over hooking up YouTube's official search API (which would need him to create and hand over a Google API key, and comes with a daily free-search cap) — can revisit that path later if this feels too generic.
