@@ -210,6 +210,18 @@ failures feeding the existing misconception system, study guides, then
 the Grade Book display. GPA stays out of this entirely — already exists
 for grades 9-12 elsewhere (College Prep → Transcript).
 
+**Progress:**
+- ✅ Piece 1 (2026-09-16): quarter boundaries + data model to store results.
+- ✅ Piece 2 (2026-09-16): the checkpoint test itself — one question per
+  topic covered that quarter, splits into parallel requests for large
+  quarters (same fix as School Guides, built in from the start), scores
+  correctly, shows a per-topic pass/fail breakdown right after taking it.
+  Verified end to end with fake data before shipping (correct split,
+  correct scoring, banner only shows once a quarter has genuinely closed).
+  Results save quietly for now — still need: feeding failures into
+  reteaching (piece 3), study guides (piece 4), and a place for you to
+  actually see the results (piece 5, Grade Book).
+
 ---
 
 ## 12. ✅ Calendar should always open on the current month

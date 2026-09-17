@@ -9,6 +9,13 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-16 — The quarterly checkpoint test itself (part 2 of 5)
+Once a quarter closes for a subject (and there's actual material to test on), the student now sees a "📝 Quarter N Checkpoint ready" banner wherever they'd normally see that subject — one question per topic covered that quarter, not a fixed quiz length, so it genuinely reflects everything taught rather than a sample. Answering shows a plain per-topic breakdown afterward: which topics are solid, which need another look.
+Reuses the exact same quiz engine that already powers every other quiz in the app (same question-tagging, same deterministic scoring — the AI writes questions, it never grades) rather than building a second one. For subjects with a lot of material in one quarter, it automatically splits into two requests running at the same time instead of one giant one — the same fix applied to School Guides today, built in from the start this time instead of found after shipping.
+Verified end to end before shipping: a 10-topic checkpoint correctly split into two parallel requests, tagged every question to the right topic, scored correctly, and produced a clean pass/fail-by-topic result — and confirmed the banner only appears once a quarter has actually closed, not before.
+**Not yet wired up:** results aren't saved anywhere visible to you yet (next piece), failures don't yet feed the reteaching system (piece after that), and there's no study guide yet either. This piece is just the test itself working correctly end to end.
+**Surface:** Student app · **Lane:** Technical (AI content generation)
+
 ### 2026-09-16 — Calendar always opens on the current month
 Small fix. It used to open on whichever month the school year's start date fell in, so if you set up school in August, it'd keep landing you back in August every time you opened Calendar, no matter what month it actually was. It now always opens on today's month.
 **Surface:** Parent/Teacher app · **Lane:** UI/UX
