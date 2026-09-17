@@ -127,3 +127,20 @@ with nothing prompting them back to the lesson. Adding a clear button
 right under the completion message itself.
 **Fixed 2026-09-16:** "← Return to lesson" button now shows right under
 the completion message once a worksheet is submitted.
+
+---
+
+## 7. ✅ Tutorial video links at the bottom of each lesson
+Collin's note: "lets load in easy links to tutorial videos on line for
+each lesson. pull available youtube links that match to each leason with
+easy to read links at the bottom for addtional help."
+Looking into how to source real, working video links before building —
+there's an existing curated YouTube-channels library already in the app
+(Resources screen) worth checking before adding something new.
+
+**Decision:** search links, not a specific AI-picked video (Collin's
+call) — never breaks, no new API key/cost needed. **Shipped 2026-09-16:**
+every lesson now ends with a "📺 Need more help?" box: one link that
+searches YouTube for that exact lesson's topic, plus up to two links
+scoped to the existing vetted channels (Khan Academy, Crash Course, etc.)
+when one covers that subject.

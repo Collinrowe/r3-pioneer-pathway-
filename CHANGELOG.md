@@ -9,6 +9,11 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-16 — "Need more help?" video search links on every lesson
+Seventh item off Collin's testing notes. Each lesson a student reads now ends with a small "📺 Need more help?" box with one-click links: a YouTube search built from that exact lesson's topic, plus (when one of the app's already-vetted educational channels, like Khan Academy or Crash Course, covers that subject) a search scoped to that channel specifically.
+Went with real, always-working search links rather than the AI trying to name one specific "best" video — a specific video can get deleted, go private, or just be wrong, and a broken link handed to a kid looking for help is worse than no link. A live search link can never 404. Collin confirmed this tradeoff over hooking up YouTube's official search API (which would need him to create and hand over a Google API key, and comes with a daily free-search cap) — can revisit that path later if this feels too generic.
+**Surface:** Student app · **Lane:** UI/UX
+
 ### 2026-09-16 — A way back out of a finished worksheet
 Sixth item off Collin's testing notes. After a student finished an interactive worksheet, they were just left sitting on the completion message with nothing prompting them anywhere — there was a small "← Back" link up at the top of the screen, but nothing obvious once you'd actually finished. Added a clear "← Return to lesson" button right under the completion message itself.
 **Surface:** Student app · **Lane:** UI/UX
