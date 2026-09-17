@@ -9,6 +9,11 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-16 — Fixed: School Guides never actually returning a guide
+Real bug — the "School Guides" tool (Lessons tab: pick a grade and a curriculum framework, get a full guide of what's covered) was asking the AI for too much in one shot — 6-8 subjects with 6-10 detailed topics each, all in a single request. Confirmed directly against the live server: that request was reliably timing out before anything came back, which is why it looked like it just didn't do anything.
+Fixed by splitting it into two smaller requests that run at the same time — one for the core STEM subjects, one for everything else — then combining them into the same guide you'd have gotten before. Tested the actual failure against the live server first to confirm the real cause, then tested the fix the same way (not just checking the code looks right) before shipping, including catching and closing a smaller issue the fix surfaced along the way (the STEM half occasionally pulled in reading/writing topics that belonged in the other half, since Common Core brands itself as "ELA and Math" — tightened the wording so each half stays in its lane).
+**Surface:** Parent/Teacher app · **Lane:** Technical (bug fix, AI content generation)
+
 ### 2026-09-16 — Resources tab now shows help matched to what's actually being studied
 First two of Collin's Resources-rework ideas, built together since they naturally fit as one piece. The Resources screen used to be completely disconnected from what any child was actually learning — just generic external directories. It now opens with a "📚 This week's help, matched to what they're actually studying" section: pick a child (if you have more than one), and see a card per subject showing their current unit and lesson, each with one-click links to search YouTube and search library books for that exact topic.
 The library links are real and verified working — Open Library (an Internet Archive project covering millions of real library books) rather than a guess at a URL, tested with an actual search before shipping. Same reasoning as the lesson video links: a live search that can't break beats a specific pick that might be wrong.

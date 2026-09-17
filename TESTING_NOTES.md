@@ -172,3 +172,18 @@ that exact topic. Library links go to Open Library (verified working with
 a real test search first). Remaining ideas (AI project suggestions,
 faith-rooted section, community-sourced recs, reorganizing the rest of
 the tab) not started — flagged in the changelog, not forgotten.
+
+---
+
+## 10. ✅ School guides not loading on the Lessons tab
+Collin's note: "why dont the school guides load on the lessons tab."
+Found it: the School Guides tool (pick a grade + curriculum framework,
+get a full guide). Confirmed directly against the live server that the
+request was timing out — it was asking the AI for too much (6-8 subjects,
+6-10 topics each) in one shot.
+**Fixed 2026-09-16:** split into two smaller parallel requests (STEM +
+everything else), merged back into one guide. Verified against the live
+server before and after, not just by reading the code — also caught and
+fixed a smaller overlap issue the split introduced (STEM half sometimes
+grabbing reading/writing topics, since Common Core brands itself as "ELA
+and Math").
