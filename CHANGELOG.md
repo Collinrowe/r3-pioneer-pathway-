@@ -9,6 +9,10 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-16 — A way back out of a finished worksheet
+Sixth item off Collin's testing notes. After a student finished an interactive worksheet, they were just left sitting on the completion message with nothing prompting them anywhere — there was a small "← Back" link up at the top of the screen, but nothing obvious once you'd actually finished. Added a clear "← Return to lesson" button right under the completion message itself.
+**Surface:** Student app · **Lane:** UI/UX
+
 ### 2026-09-15 — Ask the AI to add or remove things from the plan, in plain language
 Phase C — the last piece of the calendar rework. A new "✨ Ask AI" button next to the Calendar/List toggle opens a small chat box where you can type something like "remove the poetry unit" or "add a unit on the solar system" for the child you're viewing.
 It never just does it. The AI always comes back with one specific, plain-language proposal first — e.g. *"Remove Unit 3: Poetry"* — with Apply and Cancel buttons. If what you're removing has already-completed or graded lessons in it, that's called out explicitly right there before you confirm, not buried. Nothing changes until you tap Apply.

@@ -114,3 +114,16 @@ Full plan: `/Users/collinrowe/.claude/plans/elegant-wibbling-lemur.md`.
   only touches the specific lessons involved, so nothing already scheduled
   or completed gets disturbed by an unrelated edit.
 This is the full calendar rework, ready to test end to end.
+
+---
+
+## 6. ✅ Interactive worksheet — nothing to do once it's finished
+Collin's note: "once the worksheet is completed nothing happens it just
+stays on the completed page. lets add a button at the bottom to return to
+the lesson."
+There's a small "← Back" link at the top of the worksheet screen already,
+but after finishing, the student is left on the score/completion message
+with nothing prompting them back to the lesson. Adding a clear button
+right under the completion message itself.
+**Fixed 2026-09-16:** "← Return to lesson" button now shows right under
+the completion message once a worksheet is submitted.
