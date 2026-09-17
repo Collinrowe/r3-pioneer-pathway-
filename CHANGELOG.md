@@ -9,6 +9,12 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-09-16 — Resources tab now shows help matched to what's actually being studied
+First two of Collin's Resources-rework ideas, built together since they naturally fit as one piece. The Resources screen used to be completely disconnected from what any child was actually learning — just generic external directories. It now opens with a "📚 This week's help, matched to what they're actually studying" section: pick a child (if you have more than one), and see a card per subject showing their current unit and lesson, each with one-click links to search YouTube and search library books for that exact topic.
+The library links are real and verified working — Open Library (an Internet Archive project covering millions of real library books) rather than a guess at a URL, tested with an actual search before shipping. Same reasoning as the lesson video links: a live search that can't break beats a specific pick that might be wrong.
+**Not yet built, on purpose:** the other ideas from the brainstorm (AI-generated hands-on project ideas, a faith-rooted resource section, community-sourced recommendations, reorganizing the rest of the tab around Today/This Unit/This Year) — this was scoped to exactly what Collin asked to start with.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX + Technical (data model)
+
 ### 2026-09-16 — Fixed: lessons going blank after passing the recap check
 Real bug, caught right after shipping the video-links feature above — Collin reported the lesson screen going blank right after passing the "quick check" on the previous lesson. Root cause: the video-links box reused the app's existing list of vetted YouTube channels, but that list turned out to only be defined inside the Resources screen's own code, not available anywhere else — so the moment a student's lesson tried to use it, the whole screen crashed silently instead of showing anything.
 Fixed by moving that channel list to where the rest of the app can actually reach it. Reproduced the exact crash and confirmed the fix in an isolated test before shipping, rather than guessing.

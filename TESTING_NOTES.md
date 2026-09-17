@@ -156,3 +156,19 @@ crashed the whole page silently the moment a lesson tried to load.
 **Fixed 2026-09-16:** moved the channel list somewhere the rest of the
 app can reach. Reproduced the exact crash in an isolated test and
 confirmed the fix works before shipping.
+
+---
+
+## 9. ✅ Rework the Resources tab — started with #1 + #3
+Collin's note: "lets rework the resources tab. what we have seems very
+general and boring... if you were building this app to ship what would
+you put here." Gave 6 ideas; Collin said start with #1 (curriculum-aware)
+and #3 (library links).
+
+**Shipped 2026-09-16:** new "This week's help" section at the top of
+Resources — per child, a card per subject showing their current unit and
+lesson, with one-click YouTube and library-book search links built from
+that exact topic. Library links go to Open Library (verified working with
+a real test search first). Remaining ideas (AI project suggestions,
+faith-rooted section, community-sourced recs, reorganizing the rest of
+the tab) not started — flagged in the changelog, not forgotten.
