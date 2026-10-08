@@ -9,6 +9,13 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-10-01 — Your browser's own Back button now actually works in the app
+Looked into this one carefully, since it touches navigation everywhere. Before this, moving between the main screens (Calendar, Family, Resources, Grade Book, etc.) never told your browser about it — so pressing the browser's own Back button either did nothing useful or took you somewhere unexpected, since the app wasn't keeping a real history of where you'd been.
+Now every time you move between those main screens, it's recorded properly, so Back (and Forward) move you through them the same way they would on any normal website.
+This is specifically about the main screens reached from the side menu. Drawers, pop-ups, and the student's lesson screens already each had their own clear "← Back" or "✕ Close" button before this — those weren't touched, since they already worked.
+**Caught and fixed a real bug before shipping, not just by reading the code:** the first version quietly registered its browser-history tracking twice on startup, which corrupted the history after exactly one use of the Back button — subsequent Back/Forward presses would get stuck repeating the same screen instead of moving further. Only found this by actually simulating a user clicking through several screens and pressing Back and Forward repeatedly in a real test; fixed by making sure only one copy of that tracking is ever active, then re-ran the same test and confirmed clicking through multiple screens and pressing Back twice then Forward lands on the correct screen every time, with no stuck or duplicate entries.
+**Surface:** Parent/Teacher app · **Lane:** Technical (navigation)
+
 ### 2026-10-01 — Quarterly checkpoint results now show up in Grade Book (part 5 of 5 — done)
 Last piece of the quarterly testing system. Grade Book now has a "Quarterly Checkpoints" section — every checkpoint a child has taken, newest first, with the overall score and a plain list of every topic covered that quarter tagged clearly as passed or needs another look. Filters the same way everything else on that screen already does (All Children, or one child at a time).
 

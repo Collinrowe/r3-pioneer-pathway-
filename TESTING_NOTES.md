@@ -20,9 +20,23 @@ afterward; this is just an in-the-moment nudge, not a grade.
 
 ---
 
-## 2. 🆕 Make it easy to get back to the prior page
-Collin flagged this while testing but didn't say which screen yet. Need to
-ask him which page felt hard to back out of before building a fix.
+## 2. ✅ Make it easy to get back to the prior page
+Collin's follow-up note, now app-wide rather than one specific screen:
+"make sure its easy to navigate back to the previous page. either add a
+button or allow the back button used for web pages works."
+
+Audited the app first rather than guessing: onboarding, student login,
+and every drawer/modal already had a clear "← Back" or "✕ Close" button
+(checked each one). The real gap was the browser's own Back button —
+moving between main screens never told the browser about it, so Back
+didn't do anything useful.
+
+**Fixed 2026-10-01:** moving between the main screens (Calendar, Family,
+Resources, etc.) now properly uses browser history, so Back/Forward work
+the normal way. Caught and fixed a real bug in the first version (it
+registered its tracking twice, which got the Back button stuck repeating
+one screen after a single use) — found via direct testing, not just
+reading the code, and re-verified clean afterward.
 
 ---
 
