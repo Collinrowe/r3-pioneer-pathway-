@@ -9,6 +9,18 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-10-01 — Checkpoint failures feed reteaching, plus study guides (parts 3 & 4 of 5)
+Two more pieces of the quarterly testing system.
+
+Any topic a child misses on a quarterly checkpoint now feeds directly into the same "remembers recurring mistakes" system built earlier this project — the one that already quietly reinforces things a student keeps missing on regular quizzes, and surfaces a pattern on their Profile once it's shown up enough times. A checkpoint miss counts the same way a quiz miss does; no second, separate tracking system.
+
+Also added: a "📖 Study guide" button right next to "Start checkpoint" on the ready banner. It builds a short review sheet from exactly what was taught that quarter — not a generic grade-level guide — one short reminder per topic, printable the same way other materials in the app already are.
+
+**Caught and fixed before shipping:** the study guide button appeared everywhere the checkpoint banner does (every screen state in that subject), but the guide itself only had somewhere to display on one specific screen — on every other screen, clicking it generated the guide successfully but then had nowhere to show it. Found this with a direct test rather than just reading the code, fixed by making the guide display everywhere the banner does, same as everything else on that banner.
+
+**Still to come:** a place on your side (Grade Book) to actually see checkpoint results — right now they save quietly with nothing to look at yet.
+**Surface:** Student app · **Lane:** Technical (AI content generation)
+
 ### 2026-09-16 — The quarterly checkpoint test itself (part 2 of 5)
 Once a quarter closes for a subject (and there's actual material to test on), the student now sees a "📝 Quarter N Checkpoint ready" banner wherever they'd normally see that subject — one question per topic covered that quarter, not a fixed quiz length, so it genuinely reflects everything taught rather than a sample. Answering shows a plain per-topic breakdown afterward: which topics are solid, which need another look.
 Reuses the exact same quiz engine that already powers every other quiz in the app (same question-tagging, same deterministic scoring — the AI writes questions, it never grades) rather than building a second one. For subjects with a lot of material in one quarter, it automatically splits into two requests running at the same time instead of one giant one — the same fix applied to School Guides today, built in from the start this time instead of found after shipping.

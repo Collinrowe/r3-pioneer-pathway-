@@ -190,7 +190,7 @@ and Math").
 
 ---
 
-## 11. 💭 Quarterly testing system + transcript grades
+## 11. 🔧 Quarterly testing system + transcript grades
 Collin's note: "building out a testing system that gives the student a
 transcripted grade. GPA will not be needed until 9th grade curriculum but
 lets build a testing system for each grade that tests per quarter that
@@ -221,6 +221,18 @@ for grades 9-12 elsewhere (College Prep → Transcript).
   Results save quietly for now — still need: feeding failures into
   reteaching (piece 3), study guides (piece 4), and a place for you to
   actually see the results (piece 5, Grade Book).
+- ✅ Piece 3 (2026-10-01): a failed checkpoint topic now feeds the same
+  misconception-memory system already reinforcing missed quiz topics —
+  no second tracker, same pattern as everywhere else in the app.
+- ✅ Piece 4 (2026-10-01): "📖 Study guide" button next to "Start
+  checkpoint" — builds a short review sheet from exactly what was taught
+  that quarter, printable. Caught and fixed a real bug before shipping:
+  the button showed on every screen but the guide itself only had
+  somewhere to display on one of them — found via a direct test, not
+  just reading the code.
+- 🆕 Piece 5 still open: a place on your side (Grade Book) to actually
+  see checkpoint results. Results are saving correctly but nothing shows
+  them to you yet.
 
 ---
 
