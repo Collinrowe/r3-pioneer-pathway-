@@ -9,6 +9,16 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-10-01 — Quarterly checkpoint results now show up in Grade Book (part 5 of 5 — done)
+Last piece of the quarterly testing system. Grade Book now has a "Quarterly Checkpoints" section — every checkpoint a child has taken, newest first, with the overall score and a plain list of every topic covered that quarter tagged clearly as passed or needs another look. Filters the same way everything else on that screen already does (All Children, or one child at a time).
+
+No GPA anywhere in this section, on purpose — that's still handled separately for grades 9-12 in College Prep → Transcript, exactly as asked.
+
+Verified with real-shaped test data before shipping: a child with a checkpoint on record shows the right subject, quarter, score, and pass/fail chips; a child with none shows the plain "No quarterly checkpoints taken yet" message, no errors either way.
+
+**This completes the quarterly testing system end to end** — quarter boundaries, the checkpoint test itself, failures feeding the existing reteaching system, study guides, and now a place to actually see the results. Ready for Collin to test the whole flow for real.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX
+
 ### 2026-10-01 — Checkpoint failures feed reteaching, plus study guides (parts 3 & 4 of 5)
 Two more pieces of the quarterly testing system.
 

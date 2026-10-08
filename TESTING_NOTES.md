@@ -190,7 +190,7 @@ and Math").
 
 ---
 
-## 11. 🔧 Quarterly testing system + transcript grades
+## 11. ✅ Quarterly testing system + transcript grades
 Collin's note: "building out a testing system that gives the student a
 transcripted grade. GPA will not be needed until 9th grade curriculum but
 lets build a testing system for each grade that tests per quarter that
@@ -230,9 +230,15 @@ for grades 9-12 elsewhere (College Prep → Transcript).
   the button showed on every screen but the guide itself only had
   somewhere to display on one of them — found via a direct test, not
   just reading the code.
-- 🆕 Piece 5 still open: a place on your side (Grade Book) to actually
-  see checkpoint results. Results are saving correctly but nothing shows
-  them to you yet.
+- ✅ Piece 5 (2026-10-01): a new "Quarterly Checkpoints" section in
+  Grade Book — every checkpoint taken, newest first, with overall score
+  and a pass/fail chip per topic. Filters the same way the rest of that
+  screen already does. No GPA in it, same as the rest of this system.
+  Verified with real-shaped test data (populated + empty states) before
+  shipping.
+
+**The whole quarterly testing system is now built end to end** — ready
+for you to test for real.
 
 ---
 
