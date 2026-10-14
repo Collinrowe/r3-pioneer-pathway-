@@ -9,7 +9,7 @@ Status key: 🆕 not started · 🔧 in progress · ✅ done, awaiting Collin's 
 
 ---
 
-## 1. 🔧 Make worksheets interactive, not just printable
+## 1. ✅ Make worksheets interactive, not just printable
 Right now a worksheet only opens as a print sheet (blank lines, no way to
 type an answer in the app). Add an on-screen mode where the student can fill
 in their answers directly, in addition to keeping the print option.
@@ -55,7 +55,7 @@ starts on it, not something to build silently mid-testing-session.
 
 ---
 
-## 4. 🆕 See the full recap inside the child's profile, once the AI plan is built
+## 4. ✅ See the full recap inside the child's profile, once the AI plan is built
 Collin's note: "once the AI plan in built for the student there needs to be
 a way to see the full recap in the profile."
 
@@ -83,7 +83,7 @@ it.
 
 ---
 
-## 5. 🔧 Planner tab is confusing — auto-plan the whole year onto the calendar
+## 5. ✅ Planner tab is confusing — auto-plan the whole year onto the calendar
 Collin's note: "the planner tab is too confusing. this is what we want to
 autoplan for the teacher. each block should be set in the calendar in the
 order of learning geared to the time and intervals originally picked by
