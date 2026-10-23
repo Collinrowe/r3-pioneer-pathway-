@@ -9,6 +9,158 @@ This is the one authoritative record of what's shipped, when, and why. Every ent
 
 ## Draft / in review
 
+### 2026-10-01 — Your browser's own Back button now actually works in the app
+Looked into this one carefully, since it touches navigation everywhere. Before this, moving between the main screens (Calendar, Family, Resources, Grade Book, etc.) never told your browser about it — so pressing the browser's own Back button either did nothing useful or took you somewhere unexpected, since the app wasn't keeping a real history of where you'd been.
+Now every time you move between those main screens, it's recorded properly, so Back (and Forward) move you through them the same way they would on any normal website.
+This is specifically about the main screens reached from the side menu. Drawers, pop-ups, and the student's lesson screens already each had their own clear "← Back" or "✕ Close" button before this — those weren't touched, since they already worked.
+**Caught and fixed a real bug before shipping, not just by reading the code:** the first version quietly registered its browser-history tracking twice on startup, which corrupted the history after exactly one use of the Back button — subsequent Back/Forward presses would get stuck repeating the same screen instead of moving further. Only found this by actually simulating a user clicking through several screens and pressing Back and Forward repeatedly in a real test; fixed by making sure only one copy of that tracking is ever active, then re-ran the same test and confirmed clicking through multiple screens and pressing Back twice then Forward lands on the correct screen every time, with no stuck or duplicate entries.
+**Surface:** Parent/Teacher app · **Lane:** Technical (navigation)
+
+### 2026-10-01 — Quarterly checkpoint results now show up in Grade Book (part 5 of 5 — done)
+Last piece of the quarterly testing system. Grade Book now has a "Quarterly Checkpoints" section — every checkpoint a child has taken, newest first, with the overall score and a plain list of every topic covered that quarter tagged clearly as passed or needs another look. Filters the same way everything else on that screen already does (All Children, or one child at a time).
+
+No GPA anywhere in this section, on purpose — that's still handled separately for grades 9-12 in College Prep → Transcript, exactly as asked.
+
+Verified with real-shaped test data before shipping: a child with a checkpoint on record shows the right subject, quarter, score, and pass/fail chips; a child with none shows the plain "No quarterly checkpoints taken yet" message, no errors either way.
+
+**This completes the quarterly testing system end to end** — quarter boundaries, the checkpoint test itself, failures feeding the existing reteaching system, study guides, and now a place to actually see the results. Ready for Collin to test the whole flow for real.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX
+
+### 2026-10-01 — Checkpoint failures feed reteaching, plus study guides (parts 3 & 4 of 5)
+Two more pieces of the quarterly testing system.
+
+Any topic a child misses on a quarterly checkpoint now feeds directly into the same "remembers recurring mistakes" system built earlier this project — the one that already quietly reinforces things a student keeps missing on regular quizzes, and surfaces a pattern on their Profile once it's shown up enough times. A checkpoint miss counts the same way a quiz miss does; no second, separate tracking system.
+
+Also added: a "📖 Study guide" button right next to "Start checkpoint" on the ready banner. It builds a short review sheet from exactly what was taught that quarter — not a generic grade-level guide — one short reminder per topic, printable the same way other materials in the app already are.
+
+**Caught and fixed before shipping:** the study guide button appeared everywhere the checkpoint banner does (every screen state in that subject), but the guide itself only had somewhere to display on one specific screen — on every other screen, clicking it generated the guide successfully but then had nowhere to show it. Found this with a direct test rather than just reading the code, fixed by making the guide display everywhere the banner does, same as everything else on that banner.
+
+**Still to come:** a place on your side (Grade Book) to actually see checkpoint results — right now they save quietly with nothing to look at yet.
+**Surface:** Student app · **Lane:** Technical (AI content generation)
+
+### 2026-09-16 — The quarterly checkpoint test itself (part 2 of 5)
+Once a quarter closes for a subject (and there's actual material to test on), the student now sees a "📝 Quarter N Checkpoint ready" banner wherever they'd normally see that subject — one question per topic covered that quarter, not a fixed quiz length, so it genuinely reflects everything taught rather than a sample. Answering shows a plain per-topic breakdown afterward: which topics are solid, which need another look.
+Reuses the exact same quiz engine that already powers every other quiz in the app (same question-tagging, same deterministic scoring — the AI writes questions, it never grades) rather than building a second one. For subjects with a lot of material in one quarter, it automatically splits into two requests running at the same time instead of one giant one — the same fix applied to School Guides today, built in from the start this time instead of found after shipping.
+Verified end to end before shipping: a 10-topic checkpoint correctly split into two parallel requests, tagged every question to the right topic, scored correctly, and produced a clean pass/fail-by-topic result — and confirmed the banner only appears once a quarter has actually closed, not before.
+**Not yet wired up:** results aren't saved anywhere visible to you yet (next piece), failures don't yet feed the reteaching system (piece after that), and there's no study guide yet either. This piece is just the test itself working correctly end to end.
+**Surface:** Student app · **Lane:** Technical (AI content generation)
+
+### 2026-09-16 — Calendar always opens on the current month
+Small fix. It used to open on whichever month the school year's start date fell in, so if you set up school in August, it'd keep landing you back in August every time you opened Calendar, no matter what month it actually was. It now always opens on today's month.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX
+
+### 2026-09-16 — Foundation for quarterly checkpoint tests (part 1 of 5)
+First piece of the quarterly testing system Collin asked for: a real per-quarter checkpoint test per subject, showing what's understood and what isn't, with failures feeding back into remediation, plus study guides — building for every grade (GPA itself already exists separately for grades 9-12 in College Prep → Transcript, untouched here).
+This piece is just the foundation, nothing visible yet: school quarters are now defined as four ~9-week blocks starting from the family's school year start date, and there's a new place to store quarterly results once they exist (saved/loaded the same reliable way grades already are). Next: the checkpoint test itself.
+**Surface:** Parent/Teacher app + Student app · **Lane:** Technical (data model)
+
+### 2026-09-16 — Fixed: School Guides never actually returning a guide
+Real bug — the "School Guides" tool (Lessons tab: pick a grade and a curriculum framework, get a full guide of what's covered) was asking the AI for too much in one shot — 6-8 subjects with 6-10 detailed topics each, all in a single request. Confirmed directly against the live server: that request was reliably timing out before anything came back, which is why it looked like it just didn't do anything.
+Fixed by splitting it into two smaller requests that run at the same time — one for the core STEM subjects, one for everything else — then combining them into the same guide you'd have gotten before. Tested the actual failure against the live server first to confirm the real cause, then tested the fix the same way (not just checking the code looks right) before shipping, including catching and closing a smaller issue the fix surfaced along the way (the STEM half occasionally pulled in reading/writing topics that belonged in the other half, since Common Core brands itself as "ELA and Math" — tightened the wording so each half stays in its lane).
+**Surface:** Parent/Teacher app · **Lane:** Technical (bug fix, AI content generation)
+
+### 2026-09-16 — Resources tab now shows help matched to what's actually being studied
+First two of Collin's Resources-rework ideas, built together since they naturally fit as one piece. The Resources screen used to be completely disconnected from what any child was actually learning — just generic external directories. It now opens with a "📚 This week's help, matched to what they're actually studying" section: pick a child (if you have more than one), and see a card per subject showing their current unit and lesson, each with one-click links to search YouTube and search library books for that exact topic.
+The library links are real and verified working — Open Library (an Internet Archive project covering millions of real library books) rather than a guess at a URL, tested with an actual search before shipping. Same reasoning as the lesson video links: a live search that can't break beats a specific pick that might be wrong.
+**Not yet built, on purpose:** the other ideas from the brainstorm (AI-generated hands-on project ideas, a faith-rooted resource section, community-sourced recommendations, reorganizing the rest of the tab around Today/This Unit/This Year) — this was scoped to exactly what Collin asked to start with.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX + Technical (data model)
+
+### 2026-09-16 — Fixed: lessons going blank after passing the recap check
+Real bug, caught right after shipping the video-links feature above — Collin reported the lesson screen going blank right after passing the "quick check" on the previous lesson. Root cause: the video-links box reused the app's existing list of vetted YouTube channels, but that list turned out to only be defined inside the Resources screen's own code, not available anywhere else — so the moment a student's lesson tried to use it, the whole screen crashed silently instead of showing anything.
+Fixed by moving that channel list to where the rest of the app can actually reach it. Reproduced the exact crash and confirmed the fix in an isolated test before shipping, rather than guessing.
+**Surface:** Student app · **Lane:** Technical (bug fix)
+
+### 2026-09-16 — "Need more help?" video search links on every lesson
+Seventh item off Collin's testing notes. Each lesson a student reads now ends with a small "📺 Need more help?" box with one-click links: a YouTube search built from that exact lesson's topic, plus (when one of the app's already-vetted educational channels, like Khan Academy or Crash Course, covers that subject) a search scoped to that channel specifically.
+Went with real, always-working search links rather than the AI trying to name one specific "best" video — a specific video can get deleted, go private, or just be wrong, and a broken link handed to a kid looking for help is worse than no link. A live search link can never 404. Collin confirmed this tradeoff over hooking up YouTube's official search API (which would need him to create and hand over a Google API key, and comes with a daily free-search cap) — can revisit that path later if this feels too generic.
+**Surface:** Student app · **Lane:** UI/UX
+
+### 2026-09-16 — A way back out of a finished worksheet
+Sixth item off Collin's testing notes. After a student finished an interactive worksheet, they were just left sitting on the completion message with nothing prompting them anywhere — there was a small "← Back" link up at the top of the screen, but nothing obvious once you'd actually finished. Added a clear "← Return to lesson" button right under the completion message itself.
+**Surface:** Student app · **Lane:** UI/UX
+
+### 2026-09-15 — Ask the AI to add or remove things from the plan, in plain language
+Phase C — the last piece of the calendar rework. A new "✨ Ask AI" button next to the Calendar/List toggle opens a small chat box where you can type something like "remove the poetry unit" or "add a unit on the solar system" for the child you're viewing.
+It never just does it. The AI always comes back with one specific, plain-language proposal first — e.g. *"Remove Unit 3: Poetry"* — with Apply and Cancel buttons. If what you're removing has already-completed or graded lessons in it, that's called out explicitly right there before you confirm, not buried. Nothing changes until you tap Apply.
+Under the hood, applying a change never rebuilds the whole calendar from scratch — it only touches the specific lessons involved (new lessons get added onto the end of the existing schedule; removed ones get pulled out by name), so nothing you've already dragged to a different date, or already completed, ever gets reshuffled by an edit somewhere else in the plan.
+**Not yet built, on purpose:** reordering units/lessons within the same spot (only add/remove/edit today), and the AI can only propose one change at a time per message — flagging both as reasonable next steps, not gaps I missed.
+**Surface:** Parent/Teacher app · **Lane:** Technical (AI content generation) + UI/UX
+This closes out the calendar rework (Phases A, B, C) — one real auto-planned schedule, a full-year list view, and now a way to adjust it by asking instead of editing by hand.
+
+### 2026-09-15 — A plain "what this year covers" list, right next to the calendar
+Phase B of the calendar rework. The Calendar screen now has a "Calendar / List" toggle at the top. List view shows, per subject, every unit and every lesson in the order it'll actually be taught — the same thing driving the calendar underneath, just laid out to read top-to-bottom like a syllabus, so it's easy to hand to anyone asking "what will they cover this year" without clicking through a whole month at a time.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX
+**Next up:** Phase C, the AI chat panel to add or remove units/lessons in plain language.
+
+### 2026-09-15 — One real schedule instead of two, and pace now reflects what you actually picked
+Phase A of the calendar rework (third item off Collin's testing notes — "the planner tab is too confusing"). Turned out the app had two separate "plan my schedule" screens doing overlapping jobs: the weekly Planner board, where every lesson had to be dragged into a day by hand, and the Calendar, which already auto-builds the whole year on its own the moment a family first opens it — pulling every unit and lesson in the right learning order, spread across the school days chosen at onboarding. The Planner board is gone now; Calendar is the one real plan.
+While in there: onboarding already asks "How much time per subject?" (quick 15–20 min sessions, standard 30–45 min, deep 60+ min, or varies) and saves the answer — but nothing ever used it. Now it does: a family that picked quick sessions gets fewer subjects stacked onto the same day, spread out more; a family that picked deep sessions gets more covered per sitting. Which subjects meet how many times a week is unchanged — nothing in onboarding lets a parent pick that yet, so that's a separate future decision, not folded in here.
+**Only affects the schedule going forward** — an existing test child's calendar won't retroactively re-pace itself; this applies the next time new lessons get added to the schedule.
+**Next up (already planned, not yet built):** a plain-language "what this year covers" list next to the calendar, and a chat-based way to ask the AI to add or remove units/lessons directly.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX + Technical (scheduling)
+
+### 2026-09-15 — "Why this plan" now saved to the child's profile, not lost after onboarding
+Second item off Collin's testing notes. At the end of onboarding, there's a screen explaining why the curriculum was built the way it was — traced back to what you told the app about that student. It turned out that screen's content was never actually saved anywhere; it only existed in memory for that one moment, so there was no way to see it again afterward, which is exactly what Collin ran into.
+Now that explanation gets saved onto the child's record the moment onboarding finishes, and shows up as a new "Why this plan" section on that child's Profile (About tab).
+**Only applies going forward:** a student who was already set up before this change won't have this saved, since the information needed to rebuild it wasn't kept at the time. Flagging in case Collin wants an existing test child backfilled by hand.
+**Surface:** Parent/Teacher app · **Lane:** Technical (data model)
+
+### 2026-09-15 — Worksheets can now be filled in right on screen, not just printed
+First item off Collin's testing notes. Worksheets used to be print-only — the "answer lines" were just blank space on a printout, nothing captured digitally. Now, alongside the existing print option, a student can open a worksheet and type their answers directly in the app. The moment they submit, they see which ones were right or wrong, checked against the same answer key the worksheet already carries — a plain text comparison, not an AI judgment call. That's a nudge for the student, not the official grade: you still record the real grade the same way you always have, and it'll be pre-filled with what the app already checked so you're not retyping it.
+**Surface:** Student app · **Lane:** UI/UX + Technical (data model)
+
+### 2026-09-11 — The app now remembers recurring mistakes, not just one-off ones
+When a student fails a lesson quiz, the app already writes a short explanation of what they got wrong — but until now, it forgot that instantly. This gives it real memory: the same confusion showing up again, in a different lesson weeks later, now gets recognized as a genuine pattern instead of treated as brand new every time.
+How it shows up: nothing happens the first time (could just be an off day). The second time, future lessons for that subject quietly start reinforcing it — no separate remedial section, just naturally worked in. The third time, it becomes a real, named pattern you can see plainly on that child's profile (the "Learning" tab), with how many times it's shown up and when it was first noticed.
+**Not yet built, on purpose:** nothing currently marks a pattern "resolved" once it's actually been overcome — deciding what should count as genuinely fixed (versus one lucky right answer) is a real design question on its own, better shipped separately once the tracking itself has been used for a while. Also only today's actual lesson quiz feeds this right now, not the quick daily recap checks.
+**Surface:** Student app + Parent/Teacher app · **Lane:** Technical (AI personalization)
+
+### 2026-09-10 — "Today so far" recap on the Family screen, plus a stuck-badge fix
+Phase 6, the last piece of the daily-learning rework. Two things:
+1. **A new card on the Family screen** showing what actually happened today, per child, as it happens — lessons approved, quizzes passed (and waiting on you), recap checks missed, retries. Built entirely from activity the app was already quietly recording — nothing new to track, just finally shown.
+2. **A real stuck-badge bug, found and fixed while finishing this:** once a unit's lessons were all approved, its status badge (the small "Passed"/"Awaiting Student Test" label you see in the calendar and lesson views) used to get permanently stuck showing "Awaiting Student Test," because the old once-per-unit test that used to clear it doesn't run anymore under the new day-by-day system. It now correctly flips straight to "Passed" instead. Doesn't touch real progress or grading — purely a label that was lying to you.
+**This finishes the whole daily-learning rework** (test-in, personalized lessons, worksheets, test-out, retry-with-help, parent approval, and now visibility) — six phases, all currently sitting on a private preview link, none of it live yet. Whenever you're ready, the next step is testing it for real and giving the go-ahead to ship it to the actual site.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX + Technical (bug fix)
+
+### 2026-09-10 — Missed the quiz? Fresh questions, plus a hint on what to review
+Phase 5 of the daily-learning rework — the last piece of the actual test loop. If a student doesn't pass today's lesson quiz, they now get a short, AI-written note explaining specifically what they got wrong and how to think about it differently, right there on the lesson screen, before trying again with a fresh set of questions.
+**One thing I built in without being explicitly asked, flagging it so you know it's there:** after 3 misses in a row on the same lesson, it stops generating new attempts automatically and instead shows "let's come back to this together — your teacher has been notified" — so a genuinely stuck kid never ends up in an endless retry loop with nobody aware. Right now that "notified" part is really just something you'd notice yourself (the daily recap in the next piece will surface it properly) — happy to adjust the number of tries or build a more direct alert if you'd rather.
+**Surface:** Student app · **Lane:** Technical (data model / approval flow)
+
+### 2026-09-10 — Yesterday's recap check, before today's new lesson
+Phase 4 of the daily-learning rework. Before a student starts a new lesson (as long as there was a lesson before it), they now get a couple of quick recap questions on the previous one first — no waiting on you either way, it just happens automatically. Pass it, and they move straight into today's lesson like normal. Miss it, and today's lesson quietly gets a short review of that earlier topic woven in before the new material, so nothing gets glossed over.
+Also cleaned up while doing this: the app's old "test the whole unit at once, at the end" system is now fully retired from the student side — everything runs through the new day-by-day cycle instead, avoiding a real bug this change would've otherwise caused (a student could have ended up facing both the old whole-unit test *and* the new per-lesson one back to back).
+**Not yet built:** if a test-out (today's lesson quiz, not the recap) isn't passed, it just lets them retake with new questions for now — a short note explaining what they got wrong is the next phase.
+**Surface:** Student app + Parent/Teacher app · **Lane:** Technical (data model / approval flow)
+
+### 2026-09-10 — Worksheets for students, and a real quiz gates lesson completion
+Phase 3 of the daily-learning rework. Two changes to what a student sees after reading today's lesson:
+1. **Worksheets, finally reaching students.** The real, AI-written practice-problem worksheets — already fully built for your side of the app — now show up on the student's own screen too, with a "Get today's worksheet" button and the same print option you already have.
+2. **The manual "Submit for review" button is gone.** In its place: a short quiz on today's lesson. Passing it is what submits the lesson to you for approval — automatically, no separate button anymore. This is the real start of "test-out."
+**Not yet built:** failing the quiz just lets them retake it with fresh questions (already worked this way) — the "here's what you got wrong" helper notes come in a later phase. The recap/check on *yesterday's* lesson (test-in) also isn't built yet — that's next.
+**Surface:** Student app + Parent/Teacher app · **Lane:** Technical (data model / approval flow) + UI/UX
+
+### 2026-09-10 — Today's lesson stops changing on reload, and it's actually personalized now
+Phase 2 of the daily-learning rework. Two fixes:
+1. **Real bug, now fixed:** a student's lesson content used to be rewritten by AI every time the page reloaded — meaning a student could see genuinely different wording for "today's lesson" mid-session, and none of it was ever saved. It now gets written once and saved permanently to that lesson, same safe way other lesson data already gets saved.
+2. **Personalization, actually used now:** the AI writing lesson content, lesson plans, and worksheets used to only know a child's name and grade — every other profile detail (learning style, personality, interests, challenges) was collected but ignored. All three now use it. This reuses the exact same "student profile" writeup already used successfully for building a child's course outline — just extended to the other three places that write content for a child.
+**Surface:** Student app · **Lane:** Technical (bug fix + AI personalization)
+
+### 2026-09-10 — "Why your plan looks this way" screen after onboarding
+Phase 1 of the bigger daily-learning rework (test-in/learn/test-out, planned in full but building/shipping one piece at a time). Right after a family finishes onboarding, before they land on the dashboard for the first time, they now see a short AI-written note explaining why each child's plan is shaped the way it is — grade, pace, and (if set) learning style and interests. Shown once per family, then never again unless onboarding is redone. Nothing else about onboarding changed.
+**Surface:** Parent/Teacher app · **Lane:** UI/UX
+
+### 2026-09-08 — Fixed student PINs that could never work, made them visible to parents
+The student PIN field let a parent save a PIN shorter than 4 digits (e.g. typing 2-3 digits then saving), but the student login screen always waits for exactly 4 digits before checking it — so a short PIN could never match, locking that student out permanently with no clue why. Fixed by requiring a PIN be either blank (no PIN) or exactly 4 digits before it can be saved, with a plain "Needs all 4 digits" message if not.
+Also learned there are two different places a parent can open a child's profile — first added the visible PIN + reset there to the wrong one, caught it when Collin tested and didn't see it. It's now on both: the richer tabbed profile view (Profile/Learning/Tests/About — the one actually used from the Family screen) and the simpler one, so wherever a parent looks, it's there.
+**Surface:** Parent/Teacher app · **Lane:** Technical (bug fix) + UI/UX
+
+### 2026-09-08 — Student work now goes through a parent before it counts as done
+Found that a working first version of the Student Portal already existed in the app (PIN login, subject dashboard, per-lesson content) but wasn't documented anywhere, and had one real problem: a student's "Mark lesson complete" button marked it done immediately, with no parent ever seeing or approving it. Also found the parent's approval screen ("Review Queue") already existed too, fully built, just never had anything to review.
+Fixed by changing the student's button to "Submit for review" instead — it now goes into the existing Review Queue, where a parent can Approve (counts as done, same as anywhere else in the app) or Send back (student sees it again to redo). Added a small number badge on the Review Queue button so a parent can see at a glance if anything's waiting. Also closed a related gap: a unit's "ready for test-out" status previously could only ever be triggered by the direct student action being removed here — it's now tied to parent approval instead, matching everywhere else in the app that a lesson gets marked done.
+**Not yet done:** `CLAUDE.md`'s roadmap still lists the Student Portal as "not begun" — worth updating to reflect what's actually there.
+**Surface:** Parent/Teacher app + Student app · **Lane:** Technical (data model / approval flow)
+
 ### 2026-08-24 — Full status report (printable)
 A complete, thorough status report covering everything done, connected-but-not-live, and still open — including the stalled MailerLite connection and the unfixed waitlist-capture problem. Built as a printable document matching the site's real brand, same pattern as the compliance checklist. Saved at `research/status-report-2026-08-24.html`.
 **Surface:** N/A (internal) · **Lane:** N/A (internal)
